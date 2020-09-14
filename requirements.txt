@@ -2,5 +2,3 @@ boto3
 requests
 backoff
 cfn_flip
-flake8
-black
