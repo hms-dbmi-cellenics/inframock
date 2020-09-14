@@ -49,9 +49,6 @@ A: Both `api` and `worker` accept `CLUSTER_ENV` as an environment variable. Run 
 with this set to the appropriate value (e.g. `CLUSTER_ENV=staging python3 src/work.py`) and the service
 will connect to the appropriate cluster for you.
 
-Note that by default, `CLUSTER_ENV` used to be set to `staging` for all services, but once InfraMock is
-rolled out, the default behavior will be to connect to `development` instead for local development.
-
 **Q: I want to directly access the AWS resources in InfraMock. How do I do this?**
 
 A: The easiest way is to use the `aws-cli`. You can add `--endpoint-url` as the *second* argument to
