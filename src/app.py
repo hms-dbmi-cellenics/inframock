@@ -21,23 +21,27 @@ mock_data_path = os.getenv('MOCK_EXPERIMENT_DATA_PATH')
 def wait_for_localstack():
     r = requests.get('http://localstack:4566')
 
-def provision_biomage_stack(stack_name):
+def provision_biomage_stack():
+    RESOURCES=('dynamo', 's3', 'sns')
+
     cf = boto3.resource('cloudformation', endpoint_url="http://localstack:4566")
 
-    stack_template = None
-    with open('/cloudformation/Biomage.yaml', 'r') as f:
-        stack_template = f.read()
+    for resource in RESOURCES:
+        path = f"https://raw.githubusercontent.com/biomage-ltd/iac/master/cf/${resource}.yaml"
 
-    stack = cf.create_stack(
-        StackName=stack_name,
-        TemplateBody=stack_template,
-        Parameters=[
-            {
-                'ParameterKey': 'Environment',
-                'ParameterValue': 'development',
-            },
-        ],
-    )
+        r = requests.get(path)
+        stack_template = r.text
+
+        stack = cf.create_stack(
+            StackName=f"biomage-{resource}-development",
+            TemplateBody=stack_template,
+            Parameters=[
+                {
+                    'ParameterKey': 'Environment',
+                    'ParameterValue': 'development',
+                },
+            ],
+        )
 
     sns = boto3.client('sns', endpoint_url="http://localstack:4566")
 
@@ -96,7 +100,7 @@ def main():
     wait_for_localstack()
 
     logger.info("LocalStack is up. Provisioning Biomage stack...")
-    provision_biomage_stack(stack_name="biomage")
+    provision_biomage_stack()
 
     if populate_mock == "true":
         logger.info('Going to populate mock S3/DynamoDB with experiment data.')
