@@ -40,7 +40,7 @@ services:
 
       # whether to populate the database with a mocked experiment
       # and upload corresponding experiment file to InfraMock S3
-      - POPULATE_MOCK=${POPULATE_MOCK-false}
+      - POPULATE_MOCK=${POPULATE_MOCK-true}
 
       # the path to the file where the sample data set is kept
       - MOCK_EXPERIMENT_DATA_PATH=${MOCK_EXPERIMENT_DATA_PATH-https://gitlab.com/biomage/worker/-/raw/master/src/tests/test.h5ad}
