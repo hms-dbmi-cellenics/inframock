@@ -36,7 +36,7 @@ services:
       # pre-defined (mocked) AWS credentials
       - AWS_ACCESS_KEY_ID=SOME_MOCKED_KEY
       - AWS_SECRET_ACCESS_KEY=SOME_MOCKED_SECRET
-      - AWS_DEFAULT_REGION=eu-west-2
+      - AWS_DEFAULT_REGION=eu-west-1
 
       # whether to populate the database with a mocked experiment
       # and upload corresponding experiment file to InfraMock S3
