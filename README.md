@@ -34,11 +34,13 @@ The following environment variables are exposed for InfraMock:
 `POPULATE_MOCK`: whether localstack should be filled with a mocked PBMC data set. If this is
 set to `true`, InfraMock will try to use a locally running version of `api` to populate the
 localstack DynamoDB database with using its `/experiments/generate` endpoint. For this to work,
-`api` **must** be running with `CLUSTER_ENV` set to `development`, which is the default behavior.
+`api` **must** be running with `CLUSTER_ENV` set to `development`, which is the default behavior. The default value is `true`.
 
 `MOCK_EXPERIMENT_DATA_PATH`: where to get the mocked data for upload to the local S3 from. If
 this is not set, it will default to the GitLab URL where the data set used for the `worker` unit
 test is located.
+
+`AWS_DEFAULT_REGION`: the default mocked region for your infrastructure to be deployed under. If it's not set, it defaults to `eu-west-1`.
 
 FAQ
 ---

@@ -127,8 +127,9 @@ def main():
         logger.info("Going to upload mocked experiment data to S3.")
         populate_mock_s3(experiment_id=mock_experiment["experimentId"])
 
+    region = os.getenv("AWS_DEFAULT_REGION")
     logger.info("*" * 80)
-    logger.info("InfraMock is RUNNING.")
+    logger.info(f"InfraMock is RUNNING in mocked region {region}")
     logger.info("Check `docker-compose.yaml` for ports to acces services.")
     logger.info("Any other questions? Read the README, or ask on #engineering.")
     logger.info("*" * 80)
