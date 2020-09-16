@@ -24,7 +24,7 @@ services:
       - "4566"
     environment:
       - SERVICES=sns,sqs,dynamodb,s3,cloudformation
-      - DEFAULT_REGION=eu-west-1
+      - DEFAULT_REGION=${AWS_DEFAULT_REGION:-eu-west-1}
   service:
     container_name: 'biomage-inframock-service'
     build: .
