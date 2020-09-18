@@ -16,7 +16,8 @@ logger.setLevel(logging.DEBUG)
 
 populate_mock = os.getenv("POPULATE_MOCK")
 mock_data_path = os.getenv("MOCK_EXPERIMENT_DATA_PATH")
-environment = os.getenv("CLUSTER_ENV", "development")
+
+environment = "development"
 
 @backoff.on_exception(backoff.expo, Exception, max_time=20)
 def wait_for_localstack():
@@ -53,29 +54,6 @@ def provision_biomage_stack():
     return stack
 
 def populate_mock_dynamo():
-    # check if API is up and healthy
-
-    try:
-        r = requests.get("http://host.docker.internal:3000/v1/health")
-        assert r.status_code == 200
-    except Exception:
-        raise ConnectionError(
-            "API is not available. Check that the API is running locally."
-        )
-
-    health_data = r.json()
-    if health_data["clusterEnv"] != "development":
-        raise ConnectionError(
-            "API is not running under development cluster configuration. "
-            "Make sure the CLUSTER_ENV environment variable is set to `development`."
-        )
-
-    if r.status_code != 200:
-        raise ValueError(
-            "Mock DynamoDB data could not be generated, "
-            f"status code 200 expected, got {r.status_code}."
-        )
-
     with open('mock_experiment.json') as json_file:
         experiment_data = json.load(json_file)
 
@@ -99,7 +77,7 @@ def find_biomage_source_bucket_name():
 def populate_mock_s3(experiment_id):
     logger.debug(
         "Downloading data file to upload to mock S3 "
-        "for experiment id {experiment_id}..."
+        f"for experiment id {experiment_id} ..."
     )
 
     # download test file and save locally
