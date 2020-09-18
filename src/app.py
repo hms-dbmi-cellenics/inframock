@@ -3,6 +3,7 @@ import requests
 import backoff
 import logging
 import sys
+import json
 import os
 from cfn_tools import load_yaml
 
@@ -15,7 +16,6 @@ logger.setLevel(logging.DEBUG)
 
 populate_mock = os.getenv("POPULATE_MOCK")
 mock_data_path = os.getenv("MOCK_EXPERIMENT_DATA_PATH")
-
 
 @backoff.on_exception(backoff.expo, Exception, max_time=20)
 def wait_for_localstack():
@@ -51,6 +51,9 @@ def provision_biomage_stack():
     logger.info("Stack created.")
     return stack
 
+# def generate_experiment():
+
+
 
 def populate_mock_dynamo():
     # check if API is up and healthy
@@ -70,18 +73,12 @@ def populate_mock_dynamo():
             "Make sure the CLUSTER_ENV environment variable is set to `development`."
         )
 
-    # send POST request to populate localstack dynamodb with experiment data
-    r = requests.post("http://host.docker.internal:3000/v1/experiments/generate")
-
-    if r.status_code != 200:
-        raise ValueError(
-            "Mock DynamoDB data could not be generated, "
-            f"status code 200 expected, got {r.status_code}."
-        )
+    with open('mock_experiment.json') as json_file:
+        experiment_data = json.load(json_file)
 
     logger.info("Mocked experiment loaded into local DynamoDB.")
 
-    return r.json()
+    return experiment_data
 
 
 def find_biomage_source_bucket_name():
