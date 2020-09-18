@@ -51,10 +51,6 @@ def provision_biomage_stack():
     logger.info("Stack created.")
     return stack
 
-# def generate_experiment():
-
-
-
 def populate_mock_dynamo():
     # check if API is up and healthy
 
