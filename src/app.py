@@ -3,6 +3,7 @@ import requests
 import backoff
 import logging
 import sys
+import json
 import os
 from cfn_tools import load_yaml
 
@@ -16,6 +17,7 @@ logger.setLevel(logging.DEBUG)
 populate_mock = os.getenv("POPULATE_MOCK")
 mock_data_path = os.getenv("MOCK_EXPERIMENT_DATA_PATH")
 
+environment = "development"
 
 @backoff.on_exception(backoff.expo, Exception, max_time=20)
 def wait_for_localstack():
@@ -51,37 +53,21 @@ def provision_biomage_stack():
     logger.info("Stack created.")
     return stack
 
-
 def populate_mock_dynamo():
-    # check if API is up and healthy
+    with open('mock_experiment.json') as json_file:
+        experiment_data = json.load(json_file)
 
-    try:
-        r = requests.get("http://host.docker.internal:3000/v1/health")
-        assert r.status_code == 200
-    except Exception:
-        raise ConnectionError(
-            "API is not available. Check that the API is running locally."
-        )
+    experiment_data["count_matrix"] = "biomage-source-{}/{}.h5ad".format(environment, experiment_data["experimentId"])
 
-    health_data = r.json()
-    if health_data["clusterEnv"] != "development":
-        raise ConnectionError(
-            "API is not running under development cluster configuration. "
-            "Make sure the CLUSTER_ENV environment variable is set to `development`."
-        )
-
-    # send POST request to populate localstack dynamodb with experiment data
-    r = requests.post("http://host.docker.internal:3000/v1/experiments/generate")
-
-    if r.status_code != 200:
-        raise ValueError(
-            "Mock DynamoDB data could not be generated, "
-            f"status code 200 expected, got {r.status_code}."
-        )
+    dynamo = boto3.resource('dynamodb', endpoint_url="http://localstack:4566")
+    table = dynamo.Table("experiments-{}".format(environment))
+    table.put_item(
+        Item=experiment_data
+    )
 
     logger.info("Mocked experiment loaded into local DynamoDB.")
 
-    return r.json()
+    return experiment_data
 
 
 def find_biomage_source_bucket_name():
@@ -91,7 +77,7 @@ def find_biomage_source_bucket_name():
 def populate_mock_s3(experiment_id):
     logger.debug(
         "Downloading data file to upload to mock S3 "
-        "for experiment id {experiment_id}..."
+        f"for experiment id {experiment_id} ..."
     )
 
     # download test file and save locally
