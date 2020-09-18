@@ -79,6 +79,8 @@ def populate_mock_dynamo():
     with open('mock_experiment.json') as json_file:
         experiment_data = json.load(json_file)
 
+    experiment_data["count_matrix"] = "biomage-source-{}/{}.h5ad".format(environment, experiment_data["experimentId"])
+
     dynamo = boto3.resource('dynamodb', endpoint_url="http://localstack:4566")
     table = dynamo.Table("experiments-{}".format(environment))
     table.put_item(
