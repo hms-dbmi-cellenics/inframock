@@ -81,7 +81,6 @@ def populate_mock_dynamo():
 
     dynamo = boto3.resource('dynamodb', endpoint_url="http://localstack:4566")
     table = dynamo.Table("experiments-{}".format(environment))
-    print(table.creation_date_time)
     table.put_item(
         Item=experiment_data
     )
