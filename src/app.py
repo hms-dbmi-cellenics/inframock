@@ -16,6 +16,7 @@ logger.setLevel(logging.DEBUG)
 
 populate_mock = os.getenv("POPULATE_MOCK")
 mock_data_path = os.getenv("MOCK_EXPERIMENT_DATA_PATH")
+environment = os.getenv("CLUSTER_ENV", "development")
 
 @backoff.on_exception(backoff.expo, Exception, max_time=20)
 def wait_for_localstack():
@@ -69,8 +70,21 @@ def populate_mock_dynamo():
             "Make sure the CLUSTER_ENV environment variable is set to `development`."
         )
 
+    if r.status_code != 200:
+        raise ValueError(
+            "Mock DynamoDB data could not be generated, "
+            f"status code 200 expected, got {r.status_code}."
+        )
+
     with open('mock_experiment.json') as json_file:
         experiment_data = json.load(json_file)
+
+    dynamo = boto3.resource('dynamodb', endpoint_url="http://localstack:4566")
+    table = dynamo.Table("experiments-{}".format(environment))
+    print(table.creation_date_time)
+    table.put_item(
+        Item=experiment_data
+    )
 
     logger.info("Mocked experiment loaded into local DynamoDB.")
 
