@@ -43,4 +43,4 @@ services:
       - POPULATE_MOCK=${POPULATE_MOCK-true}
 
       # the path to the file where the sample data set is kept
-      - MOCK_EXPERIMENT_DATA_PATH=${MOCK_EXPERIMENT_DATA_PATH-https://github.com/biomage-ltd/worker/raw/master/src/tests/test.h5ad}
+      - MOCK_EXPERIMENT_DATA_PATH=${MOCK_EXPERIMENT_DATA_PATH-https://github.com/biomage-ltd/worker/raw/master/python/src/tests/test.h5ad}
