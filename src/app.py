@@ -89,11 +89,10 @@ def populate_mock_s3(experiment_id):
     # upload to s3
     s3 = boto3.client("s3", endpoint_url="http://localstack:4566")
     s3.upload_file(
-        f"{experiment_id}.h5ad",
-        find_biomage_source_bucket_name(),
-        f"{experiment_id}.h5ad",
+        Filename=f"{experiment_id}.h5ad",
+        Bucket=find_biomage_source_bucket_name(),
+        Key=f"{experiment_id}/python.h5ad",
     )
-
     logger.info("Mocked experiment data successfully uploaded to S3.")
 
 
