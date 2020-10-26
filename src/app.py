@@ -4,7 +4,9 @@ import backoff
 import logging
 import sys
 import json
+import gzip
 import os
+from pathlib import Path
 from cfn_tools import load_yaml
 
 logger = logging.getLogger("inframock")
@@ -15,7 +17,6 @@ logger.addHandler(out_hdlr)
 logger.setLevel(logging.DEBUG)
 
 populate_mock = os.getenv("POPULATE_MOCK")
-mock_data_path = os.getenv("MOCK_EXPERIMENT_DATA_PATH")
 
 environment = "development"
 
@@ -57,8 +58,6 @@ def populate_mock_dynamo():
     with open('mock_experiment.json') as json_file:
         experiment_data = json.load(json_file)
 
-    experiment_data["matrixPath"] = "biomage-source-{}/{}.h5ad".format(environment, experiment_data["experimentId"])
-
     dynamo = boto3.resource('dynamodb', endpoint_url="http://localstack:4566")
     table = dynamo.Table("experiments-{}".format(environment))
     table.put_item(
@@ -80,19 +79,26 @@ def populate_mock_s3(experiment_id):
         f"for experiment id {experiment_id} ..."
     )
 
-    # download test file and save locally
-    r = requests.get(mock_data_path, allow_redirects=True)
-    with open(f"{experiment_id}.h5ad", "wb") as f:
-        f.write(r.content)
-
-    logger.debug("Downloaded. Now uploading to S3...")
-    # upload to s3
-    s3 = boto3.client("s3", endpoint_url="http://localstack:4566")
-    s3.upload_file(
-        Filename=f"{experiment_id}.h5ad",
-        Bucket=find_biomage_source_bucket_name(),
-        Key=f"{experiment_id}/python.h5ad",
+    FILES = (
+        "https://github.com/biomage-ltd/worker/raw/master/data/test/python.h5ad.gz",
+        "https://github.com/biomage-ltd/worker/raw/master/data/test/r.rds.gz"
     )
+
+    for f in FILES:
+        logger.debug(f"Downloading {f}")
+        
+        with requests.get(f, allow_redirects=True, stream=True) as r:
+            r.raw.decode_content = True
+            contents = gzip.GzipFile(fileobj=r.raw, mode='rb')
+        
+            key = f"{experiment_id}/{Path(f).stem}"
+
+            logger.debug(f"Downloaded {f}, now uploading to S3 as {key} ...")
+            s3 = boto3.resource("s3", endpoint_url="http://localstack:4566")
+
+            s3.Object(find_biomage_source_bucket_name(), f"{experiment_id}/{Path(f).stem}").put(Body=contents.read())
+
+
     logger.info("Mocked experiment data successfully uploaded to S3.")
 
 

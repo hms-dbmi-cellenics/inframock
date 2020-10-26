@@ -31,7 +31,7 @@ services:
     links:
       - "localstack:localstack"
     volumes:
-      - "../cloudformation:/cloudformation:ro"
+      - "/Users/marcellp/Code/biomage/worker/data/5e959f9c9f4b120771249001:/files:ro"
     environment:
       # pre-defined (mocked) AWS credentials
       - AWS_ACCESS_KEY_ID=SOME_MOCKED_KEY
@@ -41,6 +41,3 @@ services:
       # whether to populate the database with a mocked experiment
       # and upload corresponding experiment file to InfraMock S3
       - POPULATE_MOCK=${POPULATE_MOCK-true}
-
-      # the path to the file where the sample data set is kept
-      - MOCK_EXPERIMENT_DATA_PATH=${MOCK_EXPERIMENT_DATA_PATH-https://github.com/biomage-ltd/worker/raw/master/python/src/tests/test.h5ad}
