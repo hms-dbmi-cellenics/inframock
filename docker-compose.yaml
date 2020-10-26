@@ -30,8 +30,6 @@ services:
     build: .
     links:
       - "localstack:localstack"
-    volumes:
-      - "/Users/marcellp/Code/biomage/worker/data/5e959f9c9f4b120771249001:/files:ro"
     environment:
       # pre-defined (mocked) AWS credentials
       - AWS_ACCESS_KEY_ID=SOME_MOCKED_KEY
