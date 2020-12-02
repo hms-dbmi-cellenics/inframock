@@ -1205,7 +1205,7 @@
        ],
        "key": "louvain",
        "name": "Louvain clusters",
-       "type": "cellSet",
+       "type": "cellSets",
        "rootNode": true
      },
      {
@@ -1639,7 +1639,7 @@
        ],
       "key": "scratchpad",
       "name": "Scratchpad",
-      "type": "cellSet",
+      "type": "cellSets",
       "rootNode": true
     }
    ],
