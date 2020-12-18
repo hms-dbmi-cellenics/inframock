@@ -39,3 +39,5 @@ services:
       # whether to populate the database with a mocked experiment
       # and upload corresponding experiment file to InfraMock S3
       - POPULATE_MOCK=${POPULATE_MOCK-true}
+
+      - MOCK_EXPERIMENT_DATA_PATH=${MOCK_EXPERIMENT_DATA_PATH-https://github.com/biomage-ltd/worker/raw/master/data/test}

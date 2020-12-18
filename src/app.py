@@ -18,6 +18,8 @@ logger.setLevel(logging.DEBUG)
 
 populate_mock = os.getenv("POPULATE_MOCK")
 
+datasets_location = os.getenv("MOCK_EXPERIMENT_DATA_PATH")
+
 environment = "development"
 
 @backoff.on_exception(backoff.expo, Exception, max_time=20)
@@ -80,8 +82,8 @@ def populate_mock_s3(experiment_id):
     )
 
     FILES = (
-        "https://github.com/biomage-ltd/worker/raw/master/data/test/python.h5ad.gz",
-        "https://github.com/biomage-ltd/worker/raw/master/data/test/r.rds.gz"
+        f"{datasets_location}/python.h5ad.gz",
+        f"{datasets_location}/r.rds.gz"
     )
 
     for f in FILES:
