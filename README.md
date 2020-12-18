@@ -46,18 +46,16 @@ it defaults to `eu-west-1`.
 FAQ
 ---
 
-**Q: I want to connect to `staging` or `production`, how do I do that?**
-
-A: Both `api` and `worker` accept `CLUSTER_ENV` as an environment variable. Run either of those locally
-with this set to the appropriate value (e.g. `CLUSTER_ENV=staging python3 src/work.py`) and the service
-will connect to the appropriate cluster for you.
-
 **Q: I want to directly access the AWS resources in InfraMock. How do I do this?**
 
-A: The easiest way is to use the `aws-cli`. You can add `--endpoint-url` as the *second* argument to
+A: The easiest way is to use the `aws-cli` along with Inframock on a separate terminal.
+You can add `--endpoint-url` as the *second* argument to
 `aws`, which will automatically redirect all further requests to InfraMock. For example:
 
     $ aws --endpoint-url=http://localhost:4566 s3 ls s3://biomage-source
+
+will give you the following output:
+
     2020-08-18 21:08:28   39909532 5e959f9c9f4b120771249001.h5ad
 
 You can also use tools like [medis](https://github.com/luin/medis) for interactively debugging the local
