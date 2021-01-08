@@ -22,8 +22,11 @@ datasets_location = os.getenv("MOCK_EXPERIMENT_DATA_PATH")
 
 environment = "development"
 
-@backoff.on_exception(backoff.expo, Exception, max_time=20)
+@backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=20)
 def wait_for_localstack():
+    logger.info(
+        "Waiting for localstack to spin up..."
+    )
     requests.get("http://localstack:4566")
 
 
