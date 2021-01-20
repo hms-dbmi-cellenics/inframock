@@ -1847,7 +1847,11 @@
     "reduce_dimensions": {
       "dimensionality_reduction": {
         "method": "PCA",
-        "max_pcs": 10,
+        "method_settings" : {
+          "PCA" : {
+            "max_pcs": 10
+          }
+        },
         "exclude_gene_categories": {
           "ribosomal" : true,
           "mitochondrial" : true,
@@ -1899,7 +1903,11 @@
         },
         "clustering_settings": {
           "method": "louvain",
-          "resolution": 0.5
+          "method_settings": {
+            "louvain" : {
+              "resolution": 0.5
+            }
+          }
         },
         "plot_styling": {
           "legend": {
