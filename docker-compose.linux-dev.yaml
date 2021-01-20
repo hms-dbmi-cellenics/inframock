@@ -1,0 +1,45 @@
+version: '3.2'
+services:
+  redis:
+      container_name: 'biomage-inframock-redis'
+      image: "redis:alpine"
+
+      # forward out the redis server. `redis-cli` should
+      # automatically find the server at http://localhost:6379
+      ports:
+          - "6379:6379"
+  localstack:
+    container_name: 'biomage-inframock-localstack'
+    image: "localstack/localstack:0.11.2"
+    ports:
+      # forward out edge port. set boto3's `endpoint_url`
+      # to be http://localhost:4566 to use localstack for development
+      - '4566:4566'
+
+      # forward out web UI port. use http://localhost:8055 to access the web UI
+      - "8055:8080"
+    expose:
+      # expose :4566 to the local container network, so inframock-service
+      # can bring up the stack for development.
+      - "4566"
+    environment:
+      - SERVICES=sns,sqs,dynamodb,s3,cloudformation
+      - DEFAULT_REGION=${AWS_DEFAULT_REGION:-eu-west-1}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+  service:
+    container_name: 'biomage-inframock-service'
+    build: .
+    links:
+      - "localstack:localstack"
+    environment:
+      # pre-defined (mocked) AWS credentials
+      - AWS_ACCESS_KEY_ID=SOME_MOCKED_KEY
+      - AWS_SECRET_ACCESS_KEY=SOME_MOCKED_SECRET
+      - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-eu-west-1}
+
+      # whether to populate the database with a mocked experiment
+      # and upload corresponding experiment file to InfraMock S3
+      - POPULATE_MOCK=${POPULATE_MOCK-true}
+
+      - MOCK_EXPERIMENT_DATA_PATH=${MOCK_EXPERIMENT_DATA_PATH-https://github.com/biomage-ltd/worker/raw/master/data/test}

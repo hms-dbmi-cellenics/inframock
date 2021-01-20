@@ -8,9 +8,13 @@ if local development is desired.
 How to use it
 -------------
 
-Simply run
+On MacOS, run
 
     docker-compose up --build
+
+On Linux, run
+
+    docker-compose -f docker-compose.linux-dev.yaml up --build
 
 You may want to use some additional environment variables. See the section down below for those.
 
