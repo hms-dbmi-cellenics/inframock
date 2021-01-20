@@ -1648,5 +1648,286 @@
    "meta": {
      "organism": "hsapiens",
      "type": "10x"
-   }
- }
+   },
+   "processing": {
+     "filter_cells": {
+      "cell_size_distribution": {
+        "enabled": true,
+        "filter_settings": {
+          "min_cell_size": 10800,
+          "bin_step": 200
+        },
+        "plot_styling": {
+          "legend": {
+            "show": true,
+            "position": "top-left"
+          },
+          "plot_dimensions": {
+            "width": 530,
+            "height": 400
+          },
+          "axes": {
+            "y_axis_title" : "",
+            "x_axis_title" : "",
+            "axes_label_size": 13,
+            "axes_tick_size": 13,
+            "offset_margins": 0,
+            "grid_line_weight": 0
+          },
+          "title": {
+            "text": "",
+            "font_size": 15,
+            "location": "left"
+          },
+          "font_styles": {
+            "font": "sans-serif"
+          }
+        }
+      },
+      "mitochondrial_content": {
+        "enabled": true,
+        "filter_settings": {
+          "method": "absolute_threshold",
+          "max_fraction": 0.1,
+          "bin_step": 0.05
+        },
+        "plot_styling": {
+          "legend": {
+            "show": true,
+            "position": "top-left"
+          },
+          "plot_dimensions": {
+            "width": 530,
+            "height": 400
+          },
+          "axes": {
+            "y_axis_title" : "",
+            "x_axis_title" : "",
+            "axes_label_size": 13,
+            "axes_tick_size": 13,
+            "offset_margins": 0,
+            "grid_line_weight": 0
+          },
+          "title": {
+            "text": "",
+            "font_size": 15,
+            "location": "left"
+          },
+          "font_styles": {
+            "font": "sans-serif"
+          }
+        }
+      },
+      "read_alignment": {
+        "enabled": true,
+        "filter_settings": {
+          "method": "absolute_threshold",
+          "filter_threshold": 0.5,
+          "bandwidth": -1
+        },
+        "plot_styling": {
+          "plot_dimensions": {
+            "width": 530,
+            "height": 400
+          },
+          "axes": {
+            "y_axis_title" : "",
+            "x_axis_title" : "",
+            "axes_label_size": 13,
+            "axes_tick_size": 13,
+            "offset_margins": 0,
+            "grid_line_weight": 10
+          },
+          "title": {
+            "text": "",
+            "font_size": 15,
+            "location": "left"
+          },
+          "font_styles": {
+            "font": "sans-serif"
+          }
+        }
+      },
+      "classifier": {
+        "enabled": true,
+        "filter_settings": {
+          "min_probabiliy": 0.8,
+          "filter_threshold": -1
+        },
+        "plot_styling": {
+          "plot_dimensions": {
+            "width": 630,
+            "height": 500
+          },
+          "axes": {
+            "y_axis_title" : "",
+            "x_axis_title" : "",
+            "axes_label_size": 13,
+            "axes_tick_size": 13,
+            "offset_margins": 0,
+            "grid_line_weight": 10
+          },
+          "title": {
+            "text": "",
+            "font_size": 15,
+            "location": "left"
+          },
+          "font_styles": {
+            "font": "sans-serif"
+          }
+        }
+      },
+      "num_genes_vs_num_umis": {
+        "enabled": true,
+        "filter_settings": {
+          "regression_type": "gam",
+          "smoothing": 13,
+          "upper_cutoff": 4.8,
+          "lower_cutoff": 2.1,
+          "stringency": 2.1,
+          "bin_step": 0.05
+        },
+        "plot_styling": {
+          "plot_dimensions": {
+            "width": 530,
+            "height": 400
+          },
+          "axes": {
+            "y_axis_title" : "",
+            "x_axis_title" : "",
+            "axes_label_size": 13,
+            "axes_tick_size": 13,
+            "offset_margins": 0,
+            "grid_line_weight": 10
+          },
+          "title": {
+            "text": "",
+            "font_size": 15,
+            "location": "left"
+          },
+          "font_styles": {
+            "font": "sans-serif"
+          }
+        }
+      },
+      "doublet_scores": {
+        "enabled": true,
+        "filter_settings": {
+          "probability_threshold": 0.2,
+          "bin_step": 0.05
+        },
+        "plot_styling": {
+          "legend": {
+            "show": true,
+            "position": "top-left"
+          },
+          "plot_dimensions": {
+            "width": 530,
+            "height": 400
+          },
+          "axes": {
+            "y_axis_title" : "",
+            "x_axis_title" : "",
+            "axes_label_size": 13,
+            "axes_tick_size": 13,
+            "offset_margins": 0,
+            "grid_line_weight": 10
+          },
+          "title": {
+            "text": "",
+            "font_size": 15,
+            "location": "left"
+          },
+          "font_styles": {
+            "font": "sans-serif"
+          }
+        }
+      }
+    },
+    "reduce_dimensions": {
+      "dimensionality_reduction": {
+        "method": "PCA",
+        "max_pcs": 10,
+        "exclude_gene_categories": {
+          "ribosomal" : true,
+          "mitochondrial" : true,
+          "cell_cycle": true
+        },
+        "interpolate" : "linear",
+        "plot_styling": {
+          "legend": {
+            "show": true,
+            "position": "top-left"
+          },
+          "plot_dimensions": {
+            "width": 530,
+            "height": 400
+          },
+          "axes": {
+            "y_axis_title" : "",
+            "x_axis_title" : "",
+            "axes_label_size": 13,
+            "axes_tick_size": 13,
+            "offset_margins": 0,
+            "grid_line_weight": 10
+          },
+          "title": {
+            "text": "",
+            "font_size": 15,
+            "location": "left"
+          },
+          "font_styles": {
+            "font": "sans-serif"
+          }
+        }
+      }
+    },
+    "configure_embedding": {
+      "configure_embedding" : {
+        "embedding_settings" : {
+          "method": "umap",
+          "method_settings": {
+            "umap" : {
+              "minimum_distance" : 0.1,
+              "distance_metric": "euclidean"
+            },
+            "tsne": {
+              "perplexity": 30,
+              "learning_rate": 200
+            }
+          }
+        },
+        "clustering_settings": {
+          "method": "louvain",
+          "resolution": 0.5
+        },
+        "plot_styling": {
+          "legend": {
+            "show": true,
+            "position": "top-left"
+          },
+          "plot_dimensions": {
+            "width": 530,
+            "height": 400
+          },
+          "axes": {
+            "y_axis_title" : "",
+            "x_axis_title" : "",
+            "axes_label_size": 13,
+            "axes_tick_size": 13,
+            "offset_margins": 0,
+            "grid_line_weight": 0
+          },
+          "title": {
+            "text": "",
+            "font_size": 20,
+            "location": "left"
+          },
+          "font_styles": {
+            "font": "sans-serif"
+          }
+        }
+      }
+    }
+  }
+}
