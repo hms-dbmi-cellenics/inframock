@@ -3,7 +3,7 @@ import requests
 import backoff
 import logging
 import sys
-import json
+import simplejson as json
 import gzip
 import os
 from pathlib import Path
@@ -61,7 +61,7 @@ def provision_biomage_stack():
 
 def populate_mock_dynamo():
     with open('mock_experiment.json') as json_file:
-        experiment_data = json.load(json_file)
+        experiment_data = json.load(json_file, use_decimal=True)
 
     dynamo = boto3.resource('dynamodb', endpoint_url="http://localstack:4566")
     table = dynamo.Table("experiments-{}".format(environment))

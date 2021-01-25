@@ -1663,8 +1663,8 @@
           "method": "absolute_threshold",
           "methodSettings" : {
             "absolute_threshold" : {
-              "maxFraction": "0.1",
-              "binStep": "0.05"
+              "maxFraction": 0.1,
+              "binStep": 0.05
             }
           }
         }
@@ -1675,8 +1675,8 @@
           "method": "absolute_threshold",
           "methodSettings" : {
             "absolute_threshold" : {
-              "filterThreshold": "0.5",
-              "bandwidth": "-1"
+              "filterThreshold": 0.5,
+              "bandwidth": -1
             }
           }
         }
@@ -1684,8 +1684,8 @@
       "classifier": {
         "enabled": true,
         "filterSettings": {
-          "minProbabiliy": "0.8",
-          "filterThreshold": "-1"
+          "minProbabiliy": 0.8,
+          "filterThreshold": -1
         }
       },
       "numGenesVsNumUmis": {
@@ -1693,17 +1693,17 @@
         "filterSettings": {
           "regressionType": "gam",
           "smoothing": 13,
-          "upperCutoff": "4.8",
-          "lowerCutoff": "2.1",
-          "stringency": "2.1",
-          "binStep": "0.05"
+          "upperCutoff": 4.8,
+          "lowerCutoff": 2.1,
+          "stringency": 2.1,
+          "binStep": 0.05
         }
       },
       "doubletScores": {
         "enabled": true,
         "filterSettings": {
-          "probabilityThreshold": "0.2",
-          "binStep": "0.05"
+          "probabilityThreshold": 0.2,
+          "binStep": 0.05
         }
       },
       "dimensionalityReduction": {
@@ -1725,7 +1725,7 @@
           "method": "umap",
           "methodSettings": {
             "umap" : {
-              "minimumDistance" : "0.1",
+              "minimumDistance" : 0.1,
               "distanceMetric": "euclidean"
             },
             "tsne": {
@@ -1738,7 +1738,7 @@
           "method": "louvain",
           "methodSettings": {
             "louvain" : {
-              "resolution": "0.5"
+              "resolution": 0.5
             }
           }
         }
