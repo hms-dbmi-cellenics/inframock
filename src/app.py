@@ -78,7 +78,7 @@ def populate_mock_dynamo():
     
     logger.info("Mocked experiment loaded into local DynamoDB.")
 
-    return experiment_data
+    return [experiment_data, multisample_experiment_data]
 
 
 def find_biomage_source_bucket_name():
@@ -125,10 +125,12 @@ def main():
 
     if populate_mock == "true":
         logger.info("Going to populate mock S3/DynamoDB with experiment data.")
-        mock_experiment = populate_mock_dynamo()
+        mock_experiments = populate_mock_dynamo()
 
         logger.info("Going to upload mocked experiment data to S3.")
-        populate_mock_s3(experiment_id=mock_experiment["experimentId"])
+
+        for mock_experiment in mock_experiments:
+            populate_mock_s3(experiment_id=mock_experiment["experimentId"])
 
     region = os.getenv("AWS_DEFAULT_REGION")
     logger.info("*" * 80)
