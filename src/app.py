@@ -8,6 +8,7 @@ import gzip
 import os
 from pathlib import Path
 from cfn_tools import load_yaml
+from boto3.s3.transfer import TransferConfig
 
 logger = logging.getLogger("inframock")
 out_hdlr = logging.StreamHandler(sys.stdout)
@@ -20,6 +21,9 @@ populate_mock = os.getenv("POPULATE_MOCK")
 
 datasets_location = os.getenv("MOCK_EXPERIMENT_DATA_PATH")
 use_local_data = os.getenv("USE_LOCAL_DATA") == 'true'
+
+MB = 1024 ** 2
+config = TransferConfig(multipart_threshold=20*MB)
 
 if use_local_data:
     datasets_location = os.getenv("LOCAL_DATA_PATH")
@@ -112,7 +116,7 @@ def populate_mock_s3(experiment_id):
                 s3 = boto3.resource("s3", endpoint_url="http://localstack:4566")
 
                 s3.Object(find_biomage_source_bucket_name(),
-                          f"{experiment_id}/{Path(f).stem}").put(Body=contents.read())
+                          f"{experiment_id}/{Path(f).stem}").upload_fileobj(Fileobj=contents, Config=config)
 
         else:
 
@@ -128,7 +132,7 @@ def populate_mock_s3(experiment_id):
                 s3 = boto3.resource("s3", endpoint_url="http://localstack:4566")
 
                 s3.Object(find_biomage_source_bucket_name(),
-                          f"{experiment_id}/{Path(f).stem}").put(Body=contents.read())
+                          f"{experiment_id}/{Path(f).stem}").upload_fileobj(Fileobj=contents, Config=config)
 
     logger.info("Mocked experiment data successfully uploaded to S3.")
 
