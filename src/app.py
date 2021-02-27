@@ -19,8 +19,14 @@ logger.setLevel(logging.DEBUG)
 populate_mock = os.getenv("POPULATE_MOCK")
 
 datasets_location = os.getenv("MOCK_EXPERIMENT_DATA_PATH")
+use_local_data = os.getenv("USE_LOCAL_DATA") == 'true'
+
+if use_local_data:
+    datasets_location = os.getenv("LOCAL_DATA_PATH")
+
 
 environment = "development"
+
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=60)
 def wait_for_localstack():
@@ -59,6 +65,7 @@ def provision_biomage_stack():
     logger.info("Stack created.")
     return stack
 
+
 def populate_mock_dynamo():
     with open('mock_experiment.json') as json_file:
         experiment_data = json.load(json_file, use_decimal=True)
@@ -90,19 +97,38 @@ def populate_mock_s3(experiment_id):
     )
 
     for f in FILES:
-        logger.debug(f"Downloading {f}")
-        
-        with requests.get(f, allow_redirects=True, stream=True) as r:
-            r.raw.decode_content = True
-            contents = gzip.GzipFile(fileobj=r.raw, mode='rb')
-        
-            key = f"{experiment_id}/{Path(f).stem}"
 
-            logger.debug(f"Downloaded {f}, now uploading to S3 as {key} ...")
-            s3 = boto3.resource("s3", endpoint_url="http://localstack:4566")
+        if use_local_data:
 
-            s3.Object(find_biomage_source_bucket_name(), f"{experiment_id}/{Path(f).stem}").put(Body=contents.read())
+            logger.debug(f"Using local data {f}")
 
+            with open(f, mode='rb') as r:
+                r.raw.decode_content = True
+                contents = gzip.GzipFile(fileobj=r.raw, mode='rb')
+
+                key = f"{experiment_id}/{Path(f).stem}"
+
+                logger.debug(f"Found {f}, now uploading to S3 as {key} ...")
+                s3 = boto3.resource("s3", endpoint_url="http://localstack:4566")
+
+                s3.Object(find_biomage_source_bucket_name(),
+                          f"{experiment_id}/{Path(f).stem}").put(Body=contents.read())
+
+        else:
+
+            logger.debug(f"Downloading {f}")
+
+            with requests.get(f, allow_redirects=True, stream=True) as r:
+                r.raw.decode_content = True
+                contents = gzip.GzipFile(fileobj=r.raw, mode='rb')
+
+                key = f"{experiment_id}/{Path(f).stem}"
+
+                logger.debug(f"Downloaded {f}, now uploading to S3 as {key} ...")
+                s3 = boto3.resource("s3", endpoint_url="http://localstack:4566")
+
+                s3.Object(find_biomage_source_bucket_name(),
+                          f"{experiment_id}/{Path(f).stem}").put(Body=contents.read())
 
     logger.info("Mocked experiment data successfully uploaded to S3.")
 

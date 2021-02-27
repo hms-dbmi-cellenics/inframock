@@ -141,3 +141,6 @@ cython_debug/
 .vscode
 
 .DS_Store
+
+# Disable uploading for local data cache for using local data
+/src/data
