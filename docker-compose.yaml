@@ -9,22 +9,26 @@ services:
     ports:
       - "6379:6379"
   localstack:
-    container_name: "biomage-inframock-localstack"
-    image: "localstack/localstack:0.11.2"
+    container_name: 'biomage-inframock-localstack'
+    image: "localstack/localstack:0.12.6"
     ports:
       # forward out edge port. set boto3's `endpoint_url`
       # to be http://localhost:4566 to use localstack for development
-      - "4566:4566"
-
-      # forward out web UI port. use http://localhost:8055 to access the web UI
-      - "8055:8080"
+      - '4566:4566'
     expose:
       # expose :4566 to the local container network, so inframock-service
       # can bring up the stack for development.
       - "4566"
     environment:
-      - SERVICES=sns,sqs,dynamodb,s3,cloudformation
+      - SERVICES=sns,sqs,dynamodb,s3,cloudformation,stepfunctions,lambda,iam
       - DEFAULT_REGION=${AWS_DEFAULT_REGION:-eu-west-1}
+      - DOCKER_HOST=unix:///var/run/docker.sock
+      - MAIN_CONTAINER_NAME='biomage-inframock-localstack'
+      - LAMBDA_EXECUTOR=local
+    privileged: true
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+      - "~/.docker:/root/.docker"
   service:
     container_name: "biomage-inframock-service"
     build: .
