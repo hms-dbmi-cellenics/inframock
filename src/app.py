@@ -95,10 +95,9 @@ def populate_mock_s3(experiment_id):
         f"for experiment id {experiment_id} ..."
     )
 
-    FILES = (
-        f"{datasets_location}/python.h5ad.gz",
+    FILES = [
         f"{datasets_location}/r.rds.gz"
-    )
+    ]
 
     for f in FILES:
 
