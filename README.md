@@ -47,6 +47,10 @@ test is located.
 `AWS_DEFAULT_REGION`: the default mocked region for your infrastructure to be deployed under. If it's not set, 
 it defaults to `eu-west-1`.
 
+`USE_LOCAL_DATA`: Flag to use local data or pull from Github. Set to `false` by defult. Set to `true` to use local data.
+
+`LOCAL_DATA_PATH`: Path of local data folder, relative to root directory. Set to `src/data` by default. Place `.rds.gz` file in this folder to load them locally to InfraMock S3.
+
 FAQ
 ---
 
