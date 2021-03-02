@@ -49,7 +49,14 @@ it defaults to `eu-west-1`.
 
 `USE_LOCAL_DATA`: Flag to use local data or pull from Github. Set to `false` by defult. Set to `true` to use local data.
 
-`LOCAL_DATA_PATH`: Path of local data folder, relative to root directory. Set to `src/data` by default. Place `.rds.gz` file in this folder to load them locally to InfraMock S3.
+Using local copy of data
+---------------------
+
+Everytime Inframock is run, it will pull data from [](https://github.com/biomage-ltd/worker/tree/master/data/test). These files can be large. Inframock has `USE_LOCAL_DATA` environment variable path to command inframock to use local data. To use this feature :
+
+1. Place data files (e.g. `rds.gz`, `h5ad.gz`) to `src/data`. You can copy these files from your worker’s local copy in `data/test` or download them from [](https://github.com/biomage-ltd/worker/tree/master/data/test).
+2. Build Inframock: `docker-compose build`
+3. Run docker using the environment variable : `USE_LOCAL_DATA=true docker-compose up`
 
 FAQ
 ---
