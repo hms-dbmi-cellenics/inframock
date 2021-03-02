@@ -1,13 +1,13 @@
-version: '3.2'
+version: "3.2"
 services:
   redis:
-      container_name: 'biomage-inframock-redis'
-      image: "redis:alpine"
+    container_name: "biomage-inframock-redis"
+    image: "redis:alpine"
 
-      # forward out the redis server. `redis-cli` should
-      # automatically find the server at http://localhost:6379
-      ports:
-          - "6379:6379"
+    # forward out the redis server. `redis-cli` should
+    # automatically find the server at http://localhost:6379
+    ports:
+      - "6379:6379"
   localstack:
     container_name: 'biomage-inframock-localstack'
     image: "localstack/localstack:0.12.6"
@@ -30,7 +30,7 @@ services:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "~/.docker:/root/.docker"
   service:
-    container_name: 'biomage-inframock-service'
+    container_name: "biomage-inframock-service"
     build: .
     links:
       - "localstack:localstack"
@@ -43,5 +43,8 @@ services:
       # whether to populate the database with a mocked experiment
       # and upload corresponding experiment file to InfraMock S3
       - POPULATE_MOCK=${POPULATE_MOCK-true}
-
       - MOCK_EXPERIMENT_DATA_PATH=${MOCK_EXPERIMENT_DATA_PATH-https://github.com/biomage-ltd/worker/raw/master/data/test}
+
+      # option to populate using local data, relative to src
+      - USE_LOCAL_DATA=${USE_LOCAL_DATA-false}
+      - LOCAL_DATA_PATH=${LOCAL_DATA_PATH-src/data}
