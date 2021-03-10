@@ -71,19 +71,36 @@ def provision_biomage_stack():
 
 
 def populate_mock_dynamo():
-    with open('mock_experiment.json') as json_file:
-        experiment_data = json.load(json_file, use_decimal=True)
 
-    dynamo = boto3.resource('dynamodb', endpoint_url="http://localstack:4566")
-    table = dynamo.Table("experiments-{}".format(environment))
-    table.put_item(
-        Item=experiment_data
-    )
+    FILES = [
+        {
+            'table': 'experiments',
+            'filename': 'mock_experiment.json'
+        },
+        {
+            'table': 'plots-tables',
+            'filename': 'mock_plots_tables.json'
+        }        
+    ]
 
-    logger.info("Mocked experiment loaded into local DynamoDB.")
+    experiment_data = None
 
+    for f in FILES :
+        with open(f['filename']) as json_file:
+            data = json.load(json_file, use_decimal=True)
+
+            dynamo = boto3.resource('dynamodb', endpoint_url="http://localstack:4566")
+            table = dynamo.Table("{}-{}".format(f['table'], environment))
+            table.put_item(
+                Item=data
+            )
+
+            logger.info("Mocked {} loaded into local DynamoDB.".format(f['table']))
+
+            if f['table'] == 'experiments':
+                experiment_data = data
+    
     return experiment_data
-
 
 def find_biomage_source_bucket_name():
     return "biomage-source-development"
