@@ -1,58 +1,176 @@
 {
-  "plotUuid": "embeddingContinuousMain",
-  "experimentId": "5928a56c7cbff9de78974ab50765ed20",
-  "plotType": "embeddingContinuous",
-  "lastUpdated": "Wed Mar 03 2021",
-  "config": {
-    "logEquation": "datum.expression*1",
-    "colour": {
-      "masterColour": "#000000",
-      "toggleInvert": "#FFFFFF",
-      "reverseColourBar": false,
-      "invert": "standard",
-      "gradient": "viridis"
+  "records": [
+    {
+      "plotUuid": "embeddingContinuousMain",
+      "experimentId": "e52b39624588791a7889e39c617f669e",
+      "lastUpdated": "Tue Mar 02 2021",
+      "plotData": [],
+      "config": {
+        "logEquation": "datum.expression*1",
+        "colour": {
+          "masterColour": "#000000",
+          "toggleInvert": "#FFFFFF",
+          "reverseColourBar": false,
+          "invert": "standard",
+          "gradient": "viridis"
+        },
+        "legend": {
+          "enabled": true,
+          "colour": "#000000",
+          "position": "top-right"
+        },
+        "marker": {
+          "shape": "circle",
+          "opacity": 5,
+          "size": 5
+        },
+        "axes": {
+          "xAxisText": "UMAP 1",
+          "domainWidth": 2,
+          "labelFontSize": 12,
+          "offset": 10,
+          "titleFontSize": 13,
+          "gridOpacity": 0,
+          "gridWidth": 10,
+          "yAxisText": "UMAP 2"
+        },
+        "shownGene": "Lyz2",
+        "label": {
+          "size": 28,
+          "enabled": true
+        },
+        "title": {
+          "fontSize": 20,
+          "text": null,
+          "dx": 0,
+          "anchor": "start"
+        },
+        "fontStyle": {
+          "colour": "#000000",
+          "font": "sans-serif"
+        },
+        "spec": "1.0.0",
+        "dimensions": {
+          "width": 700,
+          "height": 550
+        },
+        "selectedSample": "All"
+      },
+      "type": "embeddingContinuous"
     },
-    "legend": {
-      "enabled": true,
-      "colour": "#000000",
-      "position": "top-right"
+    {
+      "plotUuid": "embeddingCategoricalMain",
+      "experimentId": "e52b39624588791a7889e39c617f669e",
+      "plotType": "embeddingCategorical",
+      "lastUpdated": "Wed Mar 03 2021",
+      "plotData": [],
+      "config": {
+        "colour": {
+          "masterColour": "#000000",
+          "toggleInvert": "#FFFFFF",
+          "reverseColourBar": false,
+          "invert": "standard",
+          "gradient": "viridis"
+        },
+        "legend": {
+          "enabled": true,
+          "colour": "#000000",
+          "position": "top"
+        },
+        "marker": {
+          "shape": "circle",
+          "opacity": 5,
+          "size": 5
+        },
+        "axes": {
+          "xAxisText": "UMAP 1",
+          "domainWidth": 2,
+          "labelFontSize": 12,
+          "offset": 10,
+          "titleFontSize": 13,
+          "gridOpacity": 0,
+          "gridWidth": 10,
+          "yAxisText": "UMAP 2"
+        },
+        "label": {
+          "size": 28,
+          "enabled": true
+        },
+        "title": {
+          "fontSize": 20,
+          "text": null,
+          "anchor": "start"
+        },
+        "fontStyle": {
+          "colour": "#000000",
+          "font": "sans-serif"
+        },
+        "spec": "1.0.0",
+        "selectedCellSet": "scratchpad",
+        "dimensions": {
+          "width": 700,
+          "height": 550
+        },
+        "selectedSample": "All"
+      },
+      "type": "embeddingCategorical"
     },
-    "marker": {
-      "shape": "circle",
-      "opacity": 5,
-      "size": 5
-    },
-    "axes": {
-      "xAxisText": "UMAP 1",
-      "domainWidth": 2,
-      "labelFontSize": 12,
-      "offset": 10,
-      "titleFontSize": 13,
-      "gridOpacity": 0,
-      "gridWidth": 10,
-      "yAxisText": "UMAP 2"
-    },
-    "shownGene": "PPBP",
-    "label": {
-      "size": 28,
-      "enabled": true
-    },
-    "title": {
-      "fontSize": 20,
-      "text": null,
-      "dx": 0,
-      "anchor": "start"
-    },
-    "fontStyle": {
-      "colour": "#000000",
-      "font": "sans-serif"
-    },
-    "spec": "1.0.0",
-    "dimensions": {
-      "width": 700,
-      "height": 550
-    },
-    "selectedSample": "All"
-  },
-  "type": "embeddingContinuous"
+    {
+      "plotUuid": "embeddingPreviewBySample",
+      "experimentId": "e52b39624588791a7889e39c617f669e",
+      "plotType": "embeddingPreviewBySample",
+      "lastUpdated": "Mon Mar 01 2021",
+      "plotData": [],
+      "config": {
+        "colour": {
+          "masterColour": "#000000",
+          "toggleInvert": "#FFFFFF",
+          "reverseColourBar": false,
+          "invert": "standard",
+          "gradient": "viridis"
+        },
+        "legend": {
+          "enabled": true,
+          "colour": "#000000",
+          "position": "top"
+        },
+        "marker": {
+          "shape": "circle",
+          "opacity": 5,
+          "size": 5
+        },
+        "axes": {
+          "xAxisText": "UMAP 1",
+          "domainWidth": 2,
+          "labelFontSize": 12,
+          "offset": 10,
+          "titleFontSize": 13,
+          "gridOpacity": 9,
+          "gridWidth": 10,
+          "yAxisText": "UMAP 2"
+        },
+        "label": {
+          "size": 15,
+          "enabled": true
+        },
+        "title": {
+          "fontSize": 20,
+          "text": null,
+          "anchor": "start"
+        },
+        "fontStyle": {
+          "colour": "#000000",
+          "font": "sans-serif"
+        },
+        "spec": "1.0.0",
+        "selectedCellSet": "louvain",
+        "dimensions": {
+          "width": 829,
+          "height": 550
+        },
+        "selectedSample": "All"
+      },
+      "type": "embeddingPreviewBySample"
+    }
+  ]
 }

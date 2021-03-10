@@ -91,9 +91,16 @@ def populate_mock_dynamo():
 
             dynamo = boto3.resource('dynamodb', endpoint_url="http://localstack:4566")
             table = dynamo.Table("{}-{}".format(f['table'], environment))
-            table.put_item(
-                Item=data
-            )
+
+            if(data.get('records')) : 
+                for data_item in data['records']:
+                    table.put_item(
+                        Item=data_item
+                    )
+            else:
+                table.put_item(
+                    Item=data
+                )
 
             logger.info("Mocked {} loaded into local DynamoDB.".format(f['table']))
 
