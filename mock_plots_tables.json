@@ -4,7 +4,7 @@
       "plotUuid": "embeddingContinuousMain",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Tue Mar 02 2021",
-      "data": [],
+      "plotData": [],
       "config": {
         "logEquation": "datum.expression*1",
         "colour": {
@@ -62,7 +62,7 @@
       "type": "embeddingCategorical",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Wed Mar 03 2021",
-      "data": [],
+      "plotData": [],
       "config": {
         "colour": {
           "masterColour": "#000000",
@@ -118,7 +118,7 @@
       "type": "embeddingPreviewBySample",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
-      "data": [
+      "plotData": [
         {
           "x": -0.6937,
           "y": -3.0337,
@@ -224,7 +224,7 @@
       "type": "embeddingPreviewMitochondrialContent",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
-      "data": [
+      "plotData": [
         {
           "x": -0.6937,
           "y": -3.0337,
@@ -318,7 +318,7 @@
       "type": "embeddingPreviewDoubletScore",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
-      "data": [
+      "plotData": [
         {
           "x": -0.6937,
           "y": -3.0337,

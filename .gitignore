@@ -143,4 +143,4 @@ cython_debug/
 .DS_Store
 
 # Disable uploading for local data cache for using local data
-/src/data/*
+src/data/*
