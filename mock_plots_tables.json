@@ -1,0 +1,410 @@
+{
+  "records": [
+    {
+      "plotUuid": "embeddingContinuousMain",
+      "experimentId": "e52b39624588791a7889e39c617f669e",
+      "lastUpdated": "Tue Mar 02 2021",
+      "plotData": [],
+      "config": {
+        "logEquation": "datum.expression*1",
+        "colour": {
+          "masterColour": "#000000",
+          "toggleInvert": "#FFFFFF",
+          "reverseColourBar": false,
+          "invert": "standard",
+          "gradient": "viridis"
+        },
+        "legend": {
+          "enabled": true,
+          "colour": "#000000",
+          "position": "top-right"
+        },
+        "marker": {
+          "shape": "circle",
+          "opacity": 5,
+          "size": 5
+        },
+        "axes": {
+          "xAxisText": "UMAP 1",
+          "domainWidth": 2,
+          "labelFontSize": 12,
+          "offset": 10,
+          "titleFontSize": 13,
+          "gridOpacity": 0,
+          "gridWidth": 10,
+          "yAxisText": "UMAP 2"
+        },
+        "shownGene": "Lyz2",
+        "label": {
+          "size": 28,
+          "enabled": true
+        },
+        "title": {
+          "fontSize": 20,
+          "text": null,
+          "dx": 0,
+          "anchor": "start"
+        },
+        "fontStyle": {
+          "colour": "#000000",
+          "font": "sans-serif"
+        },
+        "spec": "1.0.0",
+        "dimensions": {
+          "width": 700,
+          "height": 550
+        }
+      },
+      "type": "embeddingContinuous"
+    },
+    {
+      "plotUuid": "embeddingCategoricalMain",
+      "type": "embeddingCategorical",
+      "experimentId": "e52b39624588791a7889e39c617f669e",
+      "lastUpdated": "Wed Mar 03 2021",
+      "plotData": [],
+      "config": {
+        "colour": {
+          "masterColour": "#000000",
+          "toggleInvert": "#FFFFFF",
+          "reverseColourBar": false,
+          "invert": "standard",
+          "gradient": "viridis"
+        },
+        "legend": {
+          "enabled": true,
+          "colour": "#000000",
+          "position": "top"
+        },
+        "marker": {
+          "shape": "circle",
+          "opacity": 5,
+          "size": 5
+        },
+        "axes": {
+          "xAxisText": "UMAP 1",
+          "domainWidth": 2,
+          "labelFontSize": 12,
+          "offset": 10,
+          "titleFontSize": 13,
+          "gridOpacity": 0,
+          "gridWidth": 10,
+          "yAxisText": "UMAP 2"
+        },
+        "label": {
+          "size": 28,
+          "enabled": true
+        },
+        "title": {
+          "fontSize": 20,
+          "text": null,
+          "anchor": "start"
+        },
+        "fontStyle": {
+          "colour": "#000000",
+          "font": "sans-serif"
+        },
+        "spec": "1.0.0",
+        "selectedCellSet": "scratchpad",
+        "dimensions": {
+          "width": 700,
+          "height": 550
+        },
+        "selectedSample": "All"
+      }
+    },
+    {
+      "plotUuid": "embeddingPreviewBySample",
+      "type": "embeddingPreviewBySample",
+      "experimentId": "e52b39624588791a7889e39c617f669e",
+      "lastUpdated": "Mon Mar 01 2021",
+      "plotData": [
+        {
+          "x": -0.6937,
+          "y": -3.0337,
+          "name": "louvain-1",
+          "cellSetId": 1,
+          "color": "#e377c2"
+        },
+        {
+          "x": -0.9717,
+          "y": -5.5083,
+          "name": "louvain-1",
+          "cellSetId": 1,
+          "color": "#e377c2"
+        },
+        {
+          "x": -3.1262,
+          "y": -4.7196,
+          "name": "louvain-2",
+          "cellSetId": 2,
+          "color": "#8c564b"
+        },
+        {
+          "x": -3.7861,
+          "y": -4.0946,
+          "name": "louvain-2",
+          "cellSetId": 2,
+          "color": "#8c564b"
+        },
+        {
+          "x": 4.0306,
+          "y": 9.4852,
+          "name": "louvain-3",
+          "cellSetId": 3,
+          "color": "#d62728"
+        },
+        {
+          "x": -3.6807,
+          "y": -4.362,
+          "name": "louvain-3",
+          "cellSetId": 3,
+          "color": "#d62728"
+        },
+        {
+          "x": -3.0299,
+          "y": -3.5424,
+          "name": "louvain-3",
+          "cellSetId": 3,
+          "color": "#d62728"
+        }
+      ],
+      "config": {
+        "colour": {
+          "masterColour": "#000000",
+          "toggleInvert": "#FFFFFF",
+          "reverseColourBar": false,
+          "invert": "standard",
+          "gradient": "viridis"
+        },
+        "legend": {
+          "enabled": true,
+          "colour": "#000000",
+          "position": "top"
+        },
+        "marker": {
+          "shape": "circle",
+          "opacity": 5,
+          "size": 5
+        },
+        "axes": {
+          "xAxisText": "UMAP 1",
+          "domainWidth": 2,
+          "labelFontSize": 12,
+          "offset": 10,
+          "titleFontSize": 13,
+          "gridOpacity": 9,
+          "gridWidth": 10,
+          "yAxisText": "UMAP 2"
+        },
+        "label": {
+          "size": 15,
+          "enabled": true
+        },
+        "title": {
+          "fontSize": 20,
+          "text": null,
+          "anchor": "start"
+        },
+        "fontStyle": {
+          "colour": "#000000",
+          "font": "sans-serif"
+        },
+        "spec": "1.0.0",
+        "selectedCellSet": "louvain",
+        "dimensions": {
+          "width": 829,
+          "height": 550
+        },
+        "selectedSample": "All"
+      }
+    },
+    {
+      "plotUuid": "embeddingPreviewMitochondrialContent",
+      "type": "embeddingPreviewMitochondrialContent",
+      "experimentId": "e52b39624588791a7889e39c617f669e",
+      "lastUpdated": "Mon Mar 01 2021",
+      "plotData": [
+        {
+          "x": -0.6937,
+          "y": -3.0337,
+          "value": 0.069
+        },
+        {
+          "x": -0.9717,
+          "y": -5.5083,
+          "value": 0.25
+        },
+        {
+          "x": -3.1262,
+          "y": -4.7196,
+          "value": 0.3546
+        },
+        {
+          "x": -3.7861,
+          "y": -4.0946,
+          "value": 0.2351
+        },
+        {
+          "x": 4.0306,
+          "y": 9.4852,
+          "value": 0.1462
+        },
+        {
+          "x": -3.6807,
+          "y": -4.362,
+          "value": 0.3284
+        },
+        {
+          "x": -3.0299,
+          "y": -3.5424,
+          "value": 0.1781
+        }
+      ],
+      "config": {
+        "logEquation": "datum.expression*1",
+        "colour": {
+          "masterColour": "#000000",
+          "toggleInvert": "#FFFFFF",
+          "reverseColourBar": false,
+          "invert": "standard",
+          "gradient": "viridis"
+        },
+        "legend": {
+          "enabled": true,
+          "colour": "#000000",
+          "position": "top-right"
+        },
+        "marker": {
+          "shape": "circle",
+          "opacity": 5,
+          "size": 5
+        },
+        "axes": {
+          "xAxisText": "UMAP 1",
+          "domainWidth": 2,
+          "labelFontSize": 12,
+          "offset": 10,
+          "titleFontSize": 13,
+          "gridOpacity": 0,
+          "gridWidth": 10,
+          "yAxisText": "UMAP 2"
+        },
+        "shownGene": "Lyz2",
+        "label": {
+          "size": 28,
+          "enabled": true
+        },
+        "title": {
+          "fontSize": 20,
+          "text": null,
+          "dx": 0,
+          "anchor": "start"
+        },
+        "fontStyle": {
+          "colour": "#000000",
+          "font": "sans-serif"
+        },
+        "spec": "1.0.0",
+        "dimensions": {
+          "width": 700,
+          "height": 550
+        },
+        "selectedSample": "All"
+      }
+    },
+    {
+      "plotUuid": "embeddingPreviewDoubletScore",
+      "type": "embeddingPreviewDoubletScore",
+      "experimentId": "e52b39624588791a7889e39c617f669e",
+      "lastUpdated": "Mon Mar 01 2021",
+      "plotData": [
+        {
+          "x": -0.6937,
+          "y": -3.0337,
+          "value": 0.069
+        },
+        {
+          "x": -0.9717,
+          "y": -5.5083,
+          "value": 0.25
+        },
+        {
+          "x": -3.1262,
+          "y": -4.7196,
+          "value": 0.3546
+        },
+        {
+          "x": -3.7861,
+          "y": -4.0946,
+          "value": 0.2351
+        },
+        {
+          "x": 4.0306,
+          "y": 9.4852,
+          "value": 0.1462
+        },
+        {
+          "x": -3.6807,
+          "y": -4.362,
+          "value": 0.3284
+        },
+        {
+          "x": -3.0299,
+          "y": -3.5424,
+          "value": 0.1781
+        }
+      ],
+      "config": {
+        "logEquation": "datum.expression*1",
+        "colour": {
+          "masterColour": "#000000",
+          "toggleInvert": "#FFFFFF",
+          "reverseColourBar": false,
+          "invert": "standard",
+          "gradient": "viridis"
+        },
+        "legend": {
+          "enabled": true,
+          "colour": "#000000",
+          "position": "top-right"
+        },
+        "marker": {
+          "shape": "circle",
+          "opacity": 5,
+          "size": 5
+        },
+        "axes": {
+          "xAxisText": "UMAP 1",
+          "domainWidth": 2,
+          "labelFontSize": 12,
+          "offset": 10,
+          "titleFontSize": 13,
+          "gridOpacity": 0,
+          "gridWidth": 10,
+          "yAxisText": "UMAP 2"
+        },
+        "shownGene": "Lyz2",
+        "label": {
+          "size": 28,
+          "enabled": true
+        },
+        "title": {
+          "fontSize": 20,
+          "text": null,
+          "dx": 0,
+          "anchor": "start"
+        },
+        "fontStyle": {
+          "colour": "#000000",
+          "font": "sans-serif"
+        },
+        "spec": "1.0.0",
+        "dimensions": {
+          "width": 700,
+          "height": 550
+        }
+      }
+    }
+  ]
+}
