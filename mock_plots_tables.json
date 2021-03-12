@@ -55,11 +55,11 @@
           "height": 550
         }
       },
-      "type": "embeddingContinuous"
+      "plotType": "embeddingContinuous"
     },
     {
       "plotUuid": "embeddingCategoricalMain",
-      "type": "embeddingCategorical",
+      "plotType": "embeddingCategorical",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Wed Mar 03 2021",
       "plotData": [],
@@ -115,7 +115,7 @@
     },
     {
       "plotUuid": "embeddingPreviewBySample",
-      "type": "embeddingPreviewBySample",
+      "plotType": "embeddingPreviewBySample",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
       "plotData": [
@@ -221,7 +221,7 @@
     },
     {
       "plotUuid": "embeddingPreviewMitochondrialContent",
-      "type": "embeddingPreviewMitochondrialContent",
+      "plotType": "embeddingPreviewMitochondrialContent",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
       "plotData": [
@@ -315,7 +315,7 @@
     },
     {
       "plotUuid": "embeddingPreviewDoubletScore",
-      "type": "embeddingPreviewDoubletScore",
+      "plotType": "embeddingPreviewDoubletScore",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
       "plotData": [
