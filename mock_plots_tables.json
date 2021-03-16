@@ -55,11 +55,11 @@
           "height": 550
         }
       },
-      "type": "embeddingContinuous"
+      "plotType": "embeddingContinuous"
     },
     {
       "plotUuid": "embeddingCategoricalMain",
-      "type": "embeddingCategorical",
+      "plotType": "embeddingCategorical",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Wed Mar 03 2021",
       "plotData": [],
@@ -115,7 +115,7 @@
     },
     {
       "plotUuid": "embeddingPreviewBySample",
-      "type": "embeddingPreviewBySample",
+      "plotType": "embeddingPreviewBySample",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
       "plotData": [
@@ -221,7 +221,7 @@
     },
     {
       "plotUuid": "embeddingPreviewMitochondrialContent",
-      "type": "embeddingPreviewMitochondrialContent",
+      "plotType": "embeddingPreviewMitochondrialContent",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
       "plotData": [
@@ -315,7 +315,7 @@
     },
     {
       "plotUuid": "embeddingPreviewDoubletScore",
-      "type": "embeddingPreviewDoubletScore",
+      "plotType": "embeddingPreviewDoubletScore",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
       "plotData": [
@@ -405,6 +405,493 @@
           "height": 550
         }
       }
+    },
+    {
+      "plotUuid": "cellSizeDistributionHistogram",
+      "plotType": "cellSizeDistributionHistogram",
+      "experimentId": "e52b39624588791a7889e39c617f669e",
+      "lastUpdated": "Mon Mar 01 2021",
+      "config": {},
+      "plotData": [
+        {
+          "u": 8890.246597269077
+        },
+        {
+          "u": 7986.663750139649
+        },
+        {
+          "u": 9301.510440766624
+        },
+        {
+          "u": 9282.633699156811
+        },
+        {
+          "u": 6555.373101949364
+        },
+        {
+          "u": 10514.968034838901
+        },
+        {
+          "u": 7106.7743148814625
+        },
+        {
+          "u": 7504.875250542309
+        },
+        {
+          "u": 6190.0626860116445
+        },
+        {
+          "u": 5697.884671567523
+        },
+        {
+          "u": 12214.277172534195
+        },
+        {
+          "u": 9117.803880095329
+        },
+        {
+          "u": 9455.47341614528
+        },
+        {
+          "u": 6350.5139684546675
+        },
+        {
+          "u": 7232.703585796234
+        },
+        {
+          "u": 5321.734526816241
+        },
+        {
+          "u": 9767.699076937095
+        },
+        {
+          "u": 6058.336378817098
+        }
+      ]
+    },
+    {
+      "plotUuid": "cellSizeDistributionKneePlot",
+      "plotType": "cellSizeDistributionKneePlot",
+      "experimentId": "e52b39624588791a7889e39c617f669e",
+      "lastUpdated": "Mon Mar 01 2021",
+      "config": {},
+      "plotData": [
+        {
+          "u": 0,
+          "rank": 17852
+        },
+        {
+          "u": 1,
+          "rank": 17412
+        },
+        {
+          "u": 2,
+          "rank": 12187
+        },
+        {
+          "u": 3,
+          "rank": 12018
+        },
+        {
+          "u": 4,
+          "rank": 11493
+        },
+        {
+          "u": 5,
+          "rank": 9938
+        },
+        {
+          "u": 6,
+          "rank": 9362
+        },
+        {
+          "u": 7,
+          "rank": 9123
+        },
+        {
+          "u": 8,
+          "rank": 8798
+        },
+        {
+          "u": 9,
+          "rank": 8064
+        },
+        {
+          "u": 10,
+          "rank": 7973
+        },
+        {
+          "u": 11,
+          "rank": 7866
+        },
+        {
+          "u": 12,
+          "rank": 7704
+        },
+        {
+          "u": 13,
+          "rank": 7594
+        },
+        {
+          "u": 14,
+          "rank": 7548
+        },
+        {
+          "u": 15,
+          "rank": 7433
+        },
+        {
+          "u": 16,
+          "rank": 7332
+        },
+        {
+          "u": 17,
+          "rank": 7224
+        },
+        {
+          "u": 18,
+          "rank": 7102
+        }
+      ]
+    },
+    {
+      "plotUuid": "mitochondrialFractionHistogram",
+      "plotType": "mitochondrialFractionHistogram",
+      "experimentId": "e52b39624588791a7889e39c617f669e",
+      "lastUpdated": "Mon Mar 01 2021",
+      "config": {},
+      "plotData": [
+        {
+          "fracMito": 0.0321412215329531,
+          "name": "TGATTAGATGACTG-1",
+          "cellSize": 3.11126251365907
+        },
+        {
+          "fracMito": 0.0303533272283272,
+          "name": "TGCGAAACAGTCAC-1",
+          "cellSize": 3.43184604569873
+        },
+        {
+          "fracMito": 0,
+          "name": "GAAACAGAACTCTT-1",
+          "cellSize": 1.86923171973098
+        },
+        {
+          "fracMito": 0.0120317433228091,
+          "name": "TAACACCTTGTTTC-1",
+          "cellSize": 3.04139268515822
+        },
+        {
+          "fracMito": 0.0147172734314485,
+          "name": "GGAACACTTCAGAC-1",
+          "cellSize": 2.84385542262316
+        },
+        {
+          "fracMito": 0.0300182077653659,
+          "name": "ATTCAGCTCATTGG-1",
+          "cellSize": 2.99694924849538
+        },
+        {
+          "fracMito": 0.023605646841009,
+          "name": "TTACGTACGTTCAG-1",
+          "cellSize": 3.00860017176192
+        },
+        {
+          "fracMito": 0.0345524348353203,
+          "name": "GACGCTCTCTCTCG-1",
+          "cellSize": 2.86628733908419
+        },
+        {
+          "fracMito": 0.0180603343660323,
+          "name": "ACCCAAGAATTCCT-1",
+          "cellSize": 3.59339684230021
+        },
+        {
+          "fracMito": 0.0207612456747405,
+          "name": "ATTAGTGAATCACG-1",
+          "cellSize": 2.1846914308176
+        },
+        {
+          "fracMito": 0.0368985038414881,
+          "name": "CTAGGTGATATCGG-1",
+          "cellSize": 2.7041505168398
+        },
+        {
+          "fracMito": 0.0181713719216817,
+          "name": "ACGAACTGGCTATG-1",
+          "cellSize": 3.99729899240951
+        },
+        {
+          "fracMito": 0.0102278010227801,
+          "name": "GAGTTGTGGTAGCT-1",
+          "cellSize": 3.42602301568988
+        }
+      ]
+    },
+    {
+      "plotUuid": "mitochondrialFractionHistogram",
+      "plotType": "mitochondrialFractionHistogram",
+      "experimentId": "e52b39624588791a7889e39c617f669e",
+      "lastUpdated": "Mon Mar 01 2021",
+      "config": {},
+      "plotData": [
+        {
+          "fracMito": 0.0321412215329531,
+          "name": "TGATTAGATGACTG-1",
+          "cellSize": 3.11126251365907
+        },
+        {
+          "fracMito": 0.0303533272283272,
+          "name": "TGCGAAACAGTCAC-1",
+          "cellSize": 3.43184604569873
+        },
+        {
+          "fracMito": 0,
+          "name": "GAAACAGAACTCTT-1",
+          "cellSize": 1.86923171973098
+        },
+        {
+          "fracMito": 0.0120317433228091,
+          "name": "TAACACCTTGTTTC-1",
+          "cellSize": 3.04139268515822
+        },
+        {
+          "fracMito": 0.0147172734314485,
+          "name": "GGAACACTTCAGAC-1",
+          "cellSize": 2.84385542262316
+        },
+        {
+          "fracMito": 0.0300182077653659,
+          "name": "ATTCAGCTCATTGG-1",
+          "cellSize": 2.99694924849538
+        },
+        {
+          "fracMito": 0.023605646841009,
+          "name": "TTACGTACGTTCAG-1",
+          "cellSize": 3.00860017176192
+        },
+        {
+          "fracMito": 0.0345524348353203,
+          "name": "GACGCTCTCTCTCG-1",
+          "cellSize": 2.86628733908419
+        },
+        {
+          "fracMito": 0.0180603343660323,
+          "name": "ACCCAAGAATTCCT-1",
+          "cellSize": 3.59339684230021
+        },
+        {
+          "fracMito": 0.0207612456747405,
+          "name": "ATTAGTGAATCACG-1",
+          "cellSize": 2.1846914308176
+        },
+        {
+          "fracMito": 0.0368985038414881,
+          "name": "CTAGGTGATATCGG-1",
+          "cellSize": 2.7041505168398
+        },
+        {
+          "fracMito": 0.0181713719216817,
+          "name": "ACGAACTGGCTATG-1",
+          "cellSize": 3.99729899240951
+        },
+        {
+          "fracMito": 0.0102278010227801,
+          "name": "GAGTTGTGGTAGCT-1",
+          "cellSize": 3.42602301568988
+        }
+      ]
+    },
+    {
+      "plotUuid": "mitochondrialFractionLogHistogram",
+      "plotType": "mitochondrialFractionLogHistogram",
+      "experimentId": "e52b39624588791a7889e39c617f669e",
+      "lastUpdated": "Mon Mar 01 2021",
+      "config": {},
+      "plotData": [
+        {
+          "fracMito": 0.0321412215329531,
+          "name": "TGATTAGATGACTG-1",
+          "cellSize": 3.11126251365907
+        },
+        {
+          "fracMito": 0.0303533272283272,
+          "name": "TGCGAAACAGTCAC-1",
+          "cellSize": 3.43184604569873
+        },
+        {
+          "fracMito": 0,
+          "name": "GAAACAGAACTCTT-1",
+          "cellSize": 1.86923171973098
+        },
+        {
+          "fracMito": 0.0120317433228091,
+          "name": "TAACACCTTGTTTC-1",
+          "cellSize": 3.04139268515822
+        },
+        {
+          "fracMito": 0.0147172734314485,
+          "name": "GGAACACTTCAGAC-1",
+          "cellSize": 2.84385542262316
+        },
+        {
+          "fracMito": 0.0300182077653659,
+          "name": "ATTCAGCTCATTGG-1",
+          "cellSize": 2.99694924849538
+        },
+        {
+          "fracMito": 0.023605646841009,
+          "name": "TTACGTACGTTCAG-1",
+          "cellSize": 3.00860017176192
+        },
+        {
+          "fracMito": 0.0345524348353203,
+          "name": "GACGCTCTCTCTCG-1",
+          "cellSize": 2.86628733908419
+        },
+        {
+          "fracMito": 0.0180603343660323,
+          "name": "ACCCAAGAATTCCT-1",
+          "cellSize": 3.59339684230021
+        },
+        {
+          "fracMito": 0.0207612456747405,
+          "name": "ATTAGTGAATCACG-1",
+          "cellSize": 2.1846914308176
+        },
+        {
+          "fracMito": 0.0368985038414881,
+          "name": "CTAGGTGATATCGG-1",
+          "cellSize": 2.7041505168398
+        },
+        {
+          "fracMito": 0.0181713719216817,
+          "name": "ACGAACTGGCTATG-1",
+          "cellSize": 3.99729899240951
+        },
+        {
+          "fracMito": 0.0102278010227801,
+          "name": "GAGTTGTGGTAGCT-1",
+          "cellSize": 3.42602301568988
+        }
+      ]
+    },
+    {
+      "plotUuid": "classifierEmptyDropsPlot",
+      "plotType": "classifierEmptyDropsPlot",
+      "experimentId": "e52b39624588791a7889e39c617f669e",
+      "lastUpdated": "Mon Mar 01 2021",
+      "config": {},
+      "plotData": [
+        {
+          "classifierP": 0.994553522823595,
+          "size": 4.25168687816849
+        },
+        {
+          "classifierP": 0.999997574990386,
+          "size": 4.24084865848536
+        },
+        {
+          "classifierP": 0.995012565653238,
+          "size": 4.08589681113159
+        },
+        {
+          "classifierP": 0.999799949031077,
+          "size": 4.07983219967722
+        },
+        {
+          "classifierP": 0.998194064506217,
+          "size": 4.06043340670274
+        },
+        {
+          "classifierP": 0.997591823735279,
+          "size": 3.99729899240951
+        },
+        {
+          "classifierP": 0.995264203445985,
+          "size": 3.97136863679142
+        },
+        {
+          "classifierP": 0.985923386621113,
+          "size": 3.96013767486379
+        },
+        {
+          "classifierP": 0.994596846253548,
+          "size": 3.94438395764084
+        },
+        {
+          "classifierP": 0.999185028198906,
+          "size": 3.90655051910145
+        },
+        {
+          "classifierP": 0.990295662696363,
+          "size": 3.90162176409336
+        },
+        {
+          "classifierP": 0.999668639670121,
+          "size": 3.89575394207373
+        },
+        {
+          "classifierP": 0.996913843206277,
+          "size": 3.88671627411648
+        },
+        {
+          "classifierP": 0.999128368542284,
+          "size": 3.88047059280378
+        },
+        {
+          "classifierP": 0.982591381668147,
+          "size": 3.87783189149289
+        },
+        {
+          "classifierP": 0.999775547508251,
+          "size": 3.87116413280295
+        },
+        {
+          "classifierP": 4.56404536569605e-17,
+          "size": 3.86522245629018
+        },
+        {
+          "classifierP": 0.999479065859769,
+          "size": 3.85877773730545
+        },
+        {
+          "classifierP": 0.999461092430934,
+          "size": 3.8513806679656
+        },
+        {
+          "classifierP": 0.998449606323758,
+          "size": 3.85070748537454
+        },
+        {
+          "classifierP": 0.998419255666474,
+          "size": 3.84929654083473
+        },
+        {
+          "classifierP": 0.999738916366826,
+          "size": 3.84391763800639
+        },
+        {
+          "classifierP": 0.999073282934035,
+          "size": 3.84129688749028
+        },
+        {
+          "classifierP": 0.999500591232901,
+          "size": 3.84085855404188
+        },
+        {
+          "classifierP": 0.941905861665924,
+          "size": 3.83954089296897
+        },
+        {
+          "classifierP": 0.999347190608384,
+          "size": 3.83676704739421
+        },
+        {
+          "classifierP": 0.99932886229293,
+          "size": 3.83638741932641
+        }
+      ]
     }
   ]
 }
