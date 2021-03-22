@@ -407,8 +407,7 @@
       }
     },
     {
-      "plotUuid": "cellSizeDistributionHistogram",
-      "plotType": "cellSizeDistributionHistogram",
+      "plotUuid": "sample-KO-cellSizeDistribution-0",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
       "config": {},
@@ -24417,7 +24416,7 @@
       ]
     },
     {
-      "plotUuid": "cellSizeDistributionKneePlot",
+      "plotUuid": "sample-KO-cellSizeDistribution-1",
       "plotType": "cellSizeDistributionKneePlot",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
@@ -49334,7 +49333,7 @@
       ]
     },
     {
-      "plotUuid": "mitochondrialFractionHistogram",
+      "plotUuid": "sample-KO-mitochondrialContent-0",
       "plotType": "mitochondrialFractionHistogram",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
@@ -74251,7 +74250,7 @@
       ]
     },
     {
-      "plotUuid": "mitochondrialFractionLogHistogram",
+      "plotUuid": "sample-KO-mitochondrialContent-1",
       "plotType": "mitochondrialFractionLogHistogram",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
@@ -99168,7 +99167,7 @@
       ]
     },
     {
-      "plotUuid": "classifierEmptyDropsPlot",
+      "plotUuid": "sample-KO-classifier-0",
       "plotType": "classifierEmptyDropsPlot",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
@@ -110749,7 +110748,7 @@
       ]
     },
     {
-      "plotUuid": "featuresVsUMIsHistogram",
+      "plotUuid": "sample-KO-numGenesVsNumUmis-0",
       "plotType": "featuresVsUMIsHistogram",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
@@ -121650,7 +121649,7 @@
       ]
     },
     {
-      "plotUuid": "featuresVsUMIsScatterplot",
+      "plotUuid": "sample-KO-numGenesVsNumUmis-1",
       "plotType": "featuresVsUMIsScatterplot",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
@@ -132551,7 +132550,7 @@
       ]
     },
     {
-      "plotUuid": "doubletScoreHistogram",
+      "plotUuid": "sample-KO-doubletScores-0",
       "plotType": "doubletScoreHistogram",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
@@ -142740,7 +142739,7 @@
       ]
     },
     {
-      "plotUuid": "dataIntegrationElbow",
+      "plotUuid": "dataIntegration-0",
       "plotType": "dataIntegrationElbow",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
@@ -142947,15 +142946,6 @@
           "percentVariance": 0.0160396861269541
         }
       ]
-    },
-    {
-      "plotUuid": "KO-cellSizeDistribution-0",
-      "plotType": "histogram",
-      "experimentId": "e52b39624588791a7889e39c617f669e",
-      "lastUpdated": "Mon Mar 01 2021",
-      "config": {},
-      "sampleUuid": "KO",
-      "plotData": []
     }
   ]
 }
