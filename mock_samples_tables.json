@@ -1,0 +1,90 @@
+{
+  "experimentId": "e52b39624588791a7889e39c617f669e",
+  "samples": {
+    "ids": [
+      "sample-KO"
+    ],
+    "sample-KO": {
+      "name": "KO",
+      "uuid": "a1234",
+      "type": "10x",
+      "species": "H. sapiens",
+      "createdDate": "2021-03-18T10: 57: 10+0000",
+      "lastModified": "2021-03-18T10: 57: 10+0000",
+      "complete": true,
+      "error": false,
+      "fileNames": [
+        "sample-KO/features.tsv.gz",
+        "sample-KO/barcodes.tsv.gz",
+        "sample-KO/matrix.mtx"
+      ],
+      "files": {
+        "sample-KO/features.tsv.gz": {
+          "objectKey": "",
+          "name": "sample-KO/features.tsv.gz",
+          "size": 123456,
+          "mime": "application/gzip",
+          "success": true,
+          "error": false
+        },
+        "sample-KO/barcodes.tsv.gz": {
+          "objectKey": "",
+          "name": "sample-KO/barcodes.tsv.gz",
+          "size": 123456,
+          "mime": "application/gzip",
+          "success": true,
+          "error": false
+        },
+        "sample-KO/matrix.tsv.gz": {
+          "objectKey": "",
+          "name": "sample-KO/matrix.mtx.gz",
+          "size": 123456,
+          "mime": "application/gzip",
+          "success": true,
+          "error": false
+        }
+      }
+    },
+    "sample-WT": {
+      "name": "WT",
+      "uuid": "a1234",
+      "type": "10x",
+      "species": "H. sapiens",
+      "createdDate": "2021-03-18T10: 57: 10+0000",
+      "lastModified": "2021-03-18T10: 57: 10+0000",
+      "complete": true,
+      "error": false,
+      "fileNames": [
+        "sample-WT/features.tsv.gz",
+        "sample-WT/barcodes.tsv.gz",
+        "sample-WT/matrix.mtx"
+      ],
+      "files": {
+        "sample-WT/features.tsv.gz": {
+          "objectKey": "",
+          "name": "sample-WT/features.tsv.gz",
+          "size": 123456,
+          "mime": "application/gzip",
+          "success": true,
+          "error": false
+        },
+        "sample-WT/barcodes.tsv.gz": {
+          "objectKey": "",
+          "name": "sample-WT/barcodes.tsv.gz",
+          "size": 123456,
+          "mime": "application/gzip",
+          "success": true,
+          "error": false
+        },
+        "sample-WT/matrix.tsv.gz": {
+          "objectKey": "",
+          "name": "sample-WT/matrix.mtx.gz",
+          "size": 123456,
+          "mime": "application/gzip",
+          "success": true,
+          "error": false
+        }
+      }
+    }
+  }
+}
