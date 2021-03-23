@@ -80,19 +80,23 @@ def populate_mock_dynamo():
         {
             'table': 'plots-tables',
             'filename': 'mock_plots_tables.json'
-        }        
+        },
+        {
+            'table': 'samples',
+            'filename': 'mock_samples_tables.json'
+        }
     ]
 
     experiment_data = None
 
-    for f in FILES :
+    for f in FILES:
         with open(f['filename']) as json_file:
             data = json.load(json_file, use_decimal=True)
 
             dynamo = boto3.resource('dynamodb', endpoint_url="http://localstack:4566")
             table = dynamo.Table("{}-{}".format(f['table'], environment))
 
-            if(data.get('records')) : 
+            if(data.get('records')):
                 for data_item in data['records']:
                     table.put_item(
                         Item=data_item
@@ -106,8 +110,9 @@ def populate_mock_dynamo():
 
             if f['table'] == 'experiments':
                 experiment_data = data
-    
+
     return experiment_data
+
 
 def find_biomage_source_bucket_name():
     return "biomage-source-development"
@@ -153,7 +158,8 @@ def populate_mock_s3(experiment_id):
 
                 logger.debug(f"Downloaded {f}, now uploading to S3 as {key} ...")
                 s3 = boto3.resource("s3", endpoint_url="http://localstack:4566")
-                s3.Object(find_biomage_source_bucket_name(), f"{experiment_id}/{Path(f).stem}").put(Body=contents.read())
+                s3.Object(find_biomage_source_bucket_name(),
+                          f"{experiment_id}/{Path(f).stem}").put(Body=contents.read())
 
     logger.info("Mocked experiment data successfully uploaded to S3.")
 
