@@ -22615,7 +22615,7 @@
       "classifier": {
          "enabled": true,
          "filterSettings": {
-            "minProbabiliy": 0.8,
+            "minProbability": 0.8,
             "filterThreshold": -1
          }
       },
