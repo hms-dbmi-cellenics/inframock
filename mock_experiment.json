@@ -22615,20 +22615,21 @@
       "classifier": {
          "enabled": true,
          "filterSettings": {
-            "minProbabiliy": 0.8,
+            "minProbability": 0.8,
             "filterThreshold": -1
          }
       },
       "numGenesVsNumUmis": {
          "enabled": true,
-         "filterSettings": {
+        "filterSettings": {
             "regressionType": "gam",
-            "smoothing": 13,
-            "upperCutoff": 4.8,
-            "lowerCutoff": 2.1,
-            "stringency": 2.1,
-            "binStep": 0.05
-         }
+             "regressionTypeSettings": {
+                  "gam": {
+                       "p.level": 0.001
+                   }
+               }
+       }
+
       },
       "doubletScores": {
          "enabled": true,
