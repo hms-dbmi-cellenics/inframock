@@ -29,8 +29,6 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "~/.docker:/root/.docker"
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
   service:
     container_name: "biomage-inframock-service"
     build: .
