@@ -35,6 +35,8 @@ Environment variables
 
 The following environment variables are exposed for InfraMock:
 
+`EXPERIMENT_ID` : set the experiment ID, or leave unset for default experiment.
+
 `POPULATE_MOCK`: whether localstack should be filled with a mocked PBMC data set. This is
 set to `true` by default, which means that InfraMock will try to use a locally running version of
 the `api` to populate the localstack DynamoDB database with using its `/experiments/generate` endpoint.

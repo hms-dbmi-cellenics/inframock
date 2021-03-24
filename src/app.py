@@ -17,19 +17,18 @@ out_hdlr.setLevel(logging.DEBUG)
 logger.addHandler(out_hdlr)
 logger.setLevel(logging.DEBUG)
 
-populate_mock = os.getenv("POPULATE_MOCK")
-
-datasets_location = os.getenv("MOCK_EXPERIMENT_DATA_PATH")
-use_local_data = os.getenv("USE_LOCAL_DATA") == 'true'
+POPULATE_MOCK = os.getenv("POPULATE_MOCK")
+EXPERIMENT_ID = os.getenv("EXPERIMENT_ID") if os.getenv(
+    "EXPERIMENT_ID") != '' else "e52b39624588791a7889e39c617f669e"
+DATASETS_LOCATION = os.getenv("MOCK_EXPERIMENT_DATA_PATH")
+USE_LOCAL_DATA = os.getenv("USE_LOCAL_DATA") == 'true'
+ENVIROMENT = "development"
 
 MB = 1024 ** 2
 config = TransferConfig(multipart_threshold=20*MB)
 
-if use_local_data:
-    datasets_location = os.getenv("LOCAL_DATA_PATH")
-
-
-environment = "development"
+if USE_LOCAL_DATA:
+    DATASETS_LOCATION = os.getenv("LOCAL_DATA_PATH")
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=60)
@@ -70,12 +69,12 @@ def provision_biomage_stack():
     return stack
 
 
-def populate_mock_dynamo():
+def populate_mock_dynamo(experiment_id):
 
     FILES = [
         {
             'table': 'experiments',
-            'filename': 'mock_experiment.json'
+            'filename': f"mock_experiment-{experiment_id}.json"
         },
         {
             'table': 'plots-tables',
@@ -94,7 +93,7 @@ def populate_mock_dynamo():
             data = json.load(json_file, use_decimal=True)
 
             dynamo = boto3.resource('dynamodb', endpoint_url="http://localstack:4566")
-            table = dynamo.Table("{}-{}".format(f['table'], environment))
+            table = dynamo.Table("{}-{}".format(f['table'], ENVIROMENT))
 
             if(data.get('records')):
                 for data_item in data['records']:
@@ -125,12 +124,12 @@ def populate_mock_s3(experiment_id):
     )
 
     FILES = [
-        f"{datasets_location}/r.rds.gz"
+        f"{DATASETS_LOCATION}/r.rds.gz"
     ]
 
     for f in FILES:
 
-        if use_local_data:
+        if USE_LOCAL_DATA:
 
             logger.debug(f"Using local data {f}")
 
@@ -165,20 +164,26 @@ def populate_mock_s3(experiment_id):
 
 
 def main():
+
     logger.info(
         "InfraMock local service started. Waiting for LocalStack to be brought up..."
     )
+
+    logger.info(
+        f"Active experiment id is : {EXPERIMENT_ID}"
+    )
+
     wait_for_localstack()
 
     logger.info("LocalStack is up. Provisioning Biomage stack...")
     provision_biomage_stack()
 
-    if populate_mock == "true":
+    if POPULATE_MOCK == "true":
         logger.info("Going to populate mock S3/DynamoDB with experiment data.")
-        mock_experiment = populate_mock_dynamo()
+        mock_experiment = populate_mock_dynamo(experiment_id=EXPERIMENT_ID)
 
         logger.info("Going to upload mocked experiment data to S3.")
-        populate_mock_s3(experiment_id=mock_experiment["experimentId"])
+        populate_mock_s3(experiment_id=EXPERIMENT_ID)
 
     region = os.getenv("AWS_DEFAULT_REGION")
     logger.info("*" * 80)

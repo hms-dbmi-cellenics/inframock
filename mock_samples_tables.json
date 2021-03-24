@@ -2,7 +2,9 @@
   "experimentId": "e52b39624588791a7889e39c617f669e",
   "samples": {
     "ids": [
-      "sample-KO"
+      "sample-KO",
+      "sample-WT1",
+      "sample-WT2"
     ],
     "sample-KO": {
       "name": "KO",
@@ -45,8 +47,8 @@
         }
       }
     },
-    "sample-WT": {
-      "name": "WT",
+    "sample-WT1": {
+      "name": "WT1",
       "uuid": "a1234",
       "type": "10x",
       "species": "H. sapiens",
@@ -55,30 +57,71 @@
       "complete": true,
       "error": false,
       "fileNames": [
-        "sample-WT/features.tsv.gz",
-        "sample-WT/barcodes.tsv.gz",
-        "sample-WT/matrix.mtx"
+        "sample-WT1/features.tsv.gz",
+        "sample-WT1/barcodes.tsv.gz",
+        "sample-WT1/matrix.mtx"
       ],
       "files": {
-        "sample-WT/features.tsv.gz": {
+        "sample-WT1/features.tsv.gz": {
           "objectKey": "",
-          "name": "sample-WT/features.tsv.gz",
+          "name": "sample-WT1/features.tsv.gz",
           "size": 123456,
           "mime": "application/gzip",
           "success": true,
           "error": false
         },
-        "sample-WT/barcodes.tsv.gz": {
+        "sample-WT1/barcodes.tsv.gz": {
           "objectKey": "",
-          "name": "sample-WT/barcodes.tsv.gz",
+          "name": "sample-WT1/barcodes.tsv.gz",
           "size": 123456,
           "mime": "application/gzip",
           "success": true,
           "error": false
         },
-        "sample-WT/matrix.tsv.gz": {
+        "sample-WT1/matrix.tsv.gz": {
           "objectKey": "",
-          "name": "sample-WT/matrix.mtx.gz",
+          "name": "sample-WT1/matrix.mtx.gz",
+          "size": 123456,
+          "mime": "application/gzip",
+          "success": true,
+          "error": false
+        }
+      }
+    },
+    "sample-WT2": {
+      "name": "WT2",
+      "uuid": "a1234",
+      "type": "10x",
+      "species": "H. sapiens",
+      "createdDate": "2021-03-18T10: 57: 10+0000",
+      "lastModified": "2021-03-18T10: 57: 10+0000",
+      "complete": true,
+      "error": false,
+      "fileNames": [
+        "sample-WT2/features.tsv.gz",
+        "sample-WT2/barcodes.tsv.gz",
+        "sample-WT2/matrix.mtx"
+      ],
+      "files": {
+        "sample-WT2/features.tsv.gz": {
+          "objectKey": "",
+          "name": "sample-WT2/features.tsv.gz",
+          "size": 123456,
+          "mime": "application/gzip",
+          "success": true,
+          "error": false
+        },
+        "sample-WT1/barcodes.tsv.gz": {
+          "objectKey": "",
+          "name": "sample-WT2/barcodes.tsv.gz",
+          "size": 123456,
+          "mime": "application/gzip",
+          "success": true,
+          "error": false
+        },
+        "sample-WT1/matrix.tsv.gz": {
+          "objectKey": "",
+          "name": "sample-WT2/matrix.mtx.gz",
           "size": 123456,
           "mime": "application/gzip",
           "success": true,
