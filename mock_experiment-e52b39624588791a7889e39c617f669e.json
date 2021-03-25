@@ -22584,10 +22584,27 @@
     "cellSizeDistribution": {
       "enabled": true,
       "filterSettings": {
-        "minCellSize": 10800,
+        "minCellSize": 100,
         "binStep": 200
       }
     },
+   "dataIntegration": {
+      "enabled": true,
+       "dataIntegration": {
+           "method": "seuratv4",
+           "methodSettings": {
+               "seuratv4": {
+                   "numGenes": 2000,
+                   "normalisation": "LogNormalize"
+               }
+           }
+       },
+       "dimensionalityReduction": {
+           "method": "rpca", 
+           "numPCs": 30,
+           "excludeGeneCategories": []
+       }
+   },
     "mitochondrialContent": {
       "enabled": true,
       "filterSettings": {
