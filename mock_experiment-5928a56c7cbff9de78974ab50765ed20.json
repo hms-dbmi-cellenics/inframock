@@ -1706,19 +1706,29 @@
         "binStep": 0.05
       }
     },
-    "dimensionalityReduction": {
-      "method": "pca",
-      "methodSettings": {
-        "pca": {
-          "maxPCs": 10
+    "dataIntegration": {
+      "auto": true,
+      "dataIntegration": {
+        "method": "seuratv3",
+        "methodSettings": {
+          "seuratv3": {
+            "normalisation": "LogNormalize",
+            "numGenes": 2000
+          },
+          "unisample": {
+            "normalisation": "LogNormalize",
+            "numGenes": 2000
+          }
         }
       },
-      "interpolate": "linear",
-      "excludeGeneCategories": {
-        "ribosomal": true,
-        "mitochondrial": true,
-        "cellCycle": true
-      }
+      "dimensionalityReduction": {
+        "excludeGeneCategories": [
+
+        ],
+        "method": "rpca",
+        "numPCs": 30
+      },
+      "enabled": true
     },
     "configureEmbedding": {
       "embeddingSettings": {
