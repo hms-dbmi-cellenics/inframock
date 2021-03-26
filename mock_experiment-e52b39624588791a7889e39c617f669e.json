@@ -22595,7 +22595,7 @@
            "methodSettings": {
                "seuratv4": {
                    "numGenes": 2000,
-                   "normalisation": "LogNormalize"
+                   "normalisation": "logNormalize"
                }
            }
        },

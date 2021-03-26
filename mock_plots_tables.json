@@ -131839,6 +131839,13 @@
     },
     {
       "plotUuid": "dataIntegration-0",
+      "plotType": "dataIntegrationEmbedding",
+      "experimentId": "e52b39624588791a7889e39c617f669e",
+      "lastUpdated": "Mon Mar 01 2021",
+      "config": {}
+    },
+    {
+      "plotUuid": "dataIntegration-1",
       "plotType": "dataIntegrationElbow",
       "experimentId": "e52b39624588791a7889e39c617f669e",
       "lastUpdated": "Mon Mar 01 2021",
