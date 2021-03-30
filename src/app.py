@@ -82,7 +82,7 @@ def populate_mock_dynamo(experiment_id):
         },
         {
             'table': 'samples',
-            'filename': 'mock_samples_tables.json'
+            'filename': f"mock_samples-{experiment_id}.json"
         }
     ]
 
