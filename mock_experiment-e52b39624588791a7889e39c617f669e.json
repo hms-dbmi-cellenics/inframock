@@ -3109,6 +3109,7 @@
   ],
   "experimentId": "e52b39624588791a7889e39c617f669e",
   "experimentName": "Multisample-murine-gamma-delta-T-wt-beta2-KO-lungs",
+  "can_write": ["admin"],
   "meta": {
     "organism": "mmusculus",
     "type": "10x"
