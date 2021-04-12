@@ -18,12 +18,14 @@ services:
       # expose :4566 to the local container network, so inframock-service
       # can bring up the stack for development.
       - "4566"
+      - "20005:4566"
     environment:
       - SERVICES=sns,sqs,dynamodb,s3,cloudformation,stepfunctions,lambda,iam
       - DEFAULT_REGION=${AWS_DEFAULT_REGION:-eu-west-1}
       - DOCKER_HOST=unix:///var/run/docker.sock
       - MAIN_CONTAINER_NAME='biomage-inframock-localstack'
       - LAMBDA_EXECUTOR=local
+      - EXTRA_CORS_ALLOWED_HEADERS=amz-sdk-request, amz-sdk-invocation-id
     privileged: true
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
