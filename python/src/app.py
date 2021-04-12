@@ -20,7 +20,6 @@ logger.addHandler(out_hdlr)
 logger.setLevel(logging.DEBUG)
 
 POPULATE_MOCK = os.getenv("POPULATE_MOCK")
-DATA_LOCATION = os.getenv("MOCK_EXPERIMENT_DATA_PATH")
 DATA_LOCATION = os.getenv("LOCAL_DATA_PATH")
 
 ENVIROMENT = "development"

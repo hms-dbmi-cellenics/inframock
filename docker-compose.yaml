@@ -23,7 +23,7 @@ services:
     environment:
       - SERVICES=sns,sqs,dynamodb,s3,cloudformation,stepfunctions,lambda,iam
       - DEFAULT_REGION=${AWS_DEFAULT_REGION:-eu-west-1}
-      - §_HOST=unix:///var/run/docker.sock
+      - DOCKER_HOST=unix:///var/run/docker.sock
       - MAIN_CONTAINER_NAME='biomage-inframock-localstack'
       - LAMBDA_EXECUTOR=local
       - EXTRA_CORS_ALLOWED_HEADERS=amz-sdk-request, amz-sdk-invocation-id
