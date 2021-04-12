@@ -32,22 +32,22 @@ services:
       - "host.docker.internal:host-gateway"
   service:
     container_name: "biomage-inframock-service"
-    build: .
+    build: ./python
     links:
       - "localstack:localstack"
+    volumes:
+        - "./data:/data"
     environment:
       # pre-defined (mocked) AWS credentials
       - AWS_ACCESS_KEY_ID=SOME_MOCKED_KEY
       - AWS_SECRET_ACCESS_KEY=SOME_MOCKED_SECRET
       - AWS_DEFAULT_REGION=${AWS_DEFAULT_REGION:-eu-west-1}
 
-      - EXPERIMENT_ID=${EXPERIMENT_ID}
+      - EXPERIMENT_ID=${EXPERIMENT_ID-e52b39624588791a7889e39c617f669e}
 
       # whether to populate the database with a mocked experiment
       # and upload corresponding experiment file to InfraMock S3
       - POPULATE_MOCK=${POPULATE_MOCK-true}
-      - MOCK_EXPERIMENT_DATA_PATH=${MOCK_EXPERIMENT_DATA_PATH-https://github.com/biomage-ltd/worker/raw/master/data/test}
 
-      # option to populate using local data, relative to src
-      - USE_LOCAL_DATA=${USE_LOCAL_DATA-false}
-      - LOCAL_DATA_PATH=${LOCAL_DATA_PATH-src/data}
+      # path where to find the experiments' data 
+      - LOCAL_DATA_PATH=${LOCAL_DATA_PATH-/data}

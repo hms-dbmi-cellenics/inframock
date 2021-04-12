@@ -1,6 +1,6 @@
 FROM python:3.7-alpine
 WORKDIR /src
-COPY requirements.txt requirements.txt
+COPY . . 
 RUN pip install -r requirements.txt
-COPY . .
+VOLUME ./data /data
 CMD ["python3", "src/app.py"]
