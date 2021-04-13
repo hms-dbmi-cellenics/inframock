@@ -81,8 +81,7 @@ def provision_biomage_stack():
         )
 
     sns = boto3.client("sns", endpoint_url=LOCALSTACK_ENDPOINT)
-
-    logger.info(sns.list_topics())
+    logger.info("SNS topics: %s" % sns.list_topics())
 
     logger.info("Stack created.")
     return stack
