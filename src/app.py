@@ -1,13 +1,15 @@
+import gzip
+import logging
+import os
+import re
+import sys
+from glob import glob
+from pathlib import Path
+
+import backoff
 import boto3
 import requests
-import backoff
-import logging
-import sys
 import simplejson as json
-import gzip
-import os
-from pathlib import Path
-from cfn_tools import load_yaml
 from boto3.s3.transfer import TransferConfig
 
 logger = logging.getLogger("inframock")
@@ -18,41 +20,57 @@ logger.addHandler(out_hdlr)
 logger.setLevel(logging.DEBUG)
 
 POPULATE_MOCK = os.getenv("POPULATE_MOCK")
-EXPERIMENT_ID = (
-    os.getenv("EXPERIMENT_ID")
-    if os.getenv("EXPERIMENT_ID") != ""
-    else "e52b39624588791a7889e39c617f669e"
-)
-DATASETS_LOCATION = os.getenv("MOCK_EXPERIMENT_DATA_PATH")
-USE_LOCAL_DATA = os.getenv("USE_LOCAL_DATA") == "true"
-ENVIROMENT = "development"
 
+# data is always mounted into /data regardless of the origin location
+DATA_LOCATION = "/data"
+ENVIROMENT = "development"
+LOCALSTACK_ENDPOINT = "http://localstack:4566"
+SOURCE_BUCKET_NAME = "biomage-source-development"
 MB = 1024 ** 2
 config = TransferConfig(multipart_threshold=20 * MB)
-
-if USE_LOCAL_DATA:
-    DATASETS_LOCATION = os.getenv("LOCAL_DATA_PATH")
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=60)
 def wait_for_localstack():
     logger.info("Waiting for localstack to spin up...")
-    requests.get("http://localstack:4566")
+    requests.get(LOCALSTACK_ENDPOINT)
+
+
+def get_file_table(filename):
+    if re.match("mock_experiment.*.json", filename):
+        return "experiments"
+
+    if re.match("mock_samples.*.json", filename):
+        return "samples"
+
+    if re.match("mock_plots_tables.*.json", filename):
+        return "plots-tables"
+
+    # this should not be reachable as the names a prefiltered in handle_file()
+    raise ValueError(f"invalid file provided {filename}")
+
+
+def get_experiments():
+    return [
+        d
+        for d in os.listdir(DATA_LOCATION)
+        if os.path.isdir(os.path.join(DATA_LOCATION, d))
+    ]
 
 
 def provision_biomage_stack():
-    RESOURCES = ("dynamo", "s3", "sns")
+    resources = ("dynamo", "s3", "sns")
 
-    cf = boto3.resource("cloudformation", endpoint_url="http://localstack:4566")
+    cf = boto3.resource("cloudformation", endpoint_url=LOCALSTACK_ENDPOINT)
 
-    for resource in RESOURCES:
-        path = f"https://raw.githubusercontent.com/biomage-ltd/iac/master/cf/{resource}.yaml"
+    for r in resources:
+        path = f"https://raw.githubusercontent.com/biomage-ltd/iac/master/cf/{r}.yaml"
 
         r = requests.get(path)
         stack_template = r.text
 
         stack = cf.create_stack(
-            StackName=f"biomage-{resource}-development",
+            StackName=f"biomage-{r}-development",
             TemplateBody=stack_template,
             Parameters=[
                 {
@@ -62,102 +80,77 @@ def provision_biomage_stack():
             ],
         )
 
-    sns = boto3.client("sns", endpoint_url="http://localstack:4566")
-
-    logger.warning(sns.list_topics())
+    sns = boto3.client("sns", endpoint_url=LOCALSTACK_ENDPOINT)
+    logger.info("SNS topics: %s" % sns.list_topics())
 
     logger.info("Stack created.")
     return stack
 
 
-def populate_mock_dynamo(experiment_id):
+def handle_file(experiment_id, f):
+    # handle file will:
+    # * update DynamoDB for files matching mock_*.json
+    # * update S3 for data files named r.rds.gz
+    # * ignore the file otherwise
+    filename = Path(f).name
+    logger.info(f" - {filename}")
 
-    FILES = [
-        {"table": "experiments", "filename": f"mock_experiment-{experiment_id}.json"},
-        {"table": "plots-tables", "filename": "mock_plots_tables.json"},
-        {"table": "samples", "filename": f"mock_samples-{experiment_id}.json"},
-    ]
+    if re.match("mock_.*.json", filename):
+        update_dynamoDB(f)
+        logger.info(f"\tMocked {filename} loaded into local DynamoDB.")
 
-    experiment_data = None
+    elif re.match("r.rds.gz", filename):
+        update_S3(experiment_id, f)
+        logger.info("\tMocked experiment data successfully uploaded to S3.")
 
-    for f in FILES:
-        with open(f["filename"]) as json_file:
-            data = json.load(json_file, use_decimal=True)
-
-            dynamo = boto3.resource("dynamodb", endpoint_url="http://localstack:4566")
-            table = dynamo.Table("{}-{}".format(f["table"], ENVIROMENT))
-
-            if data.get("records"):
-                for data_item in data["records"]:
-                    table.put_item(Item=data_item)
-            else:
-                table.put_item(Item=data)
-
-            logger.info("Mocked {} loaded into local DynamoDB.".format(f["table"]))
-
-            if f["table"] == "experiments":
-                experiment_data = data
-
-    return experiment_data
+    else:
+        logger.warning(f"\tUnknown input file {filename}, continuing")
 
 
-def find_biomage_source_bucket_name():
-    return "biomage-source-development"
+def update_dynamoDB(f):
+    filename = Path(f).name
+    with open(f) as json_file:
+        table_name = get_file_table(filename)
 
+        data = json.load(json_file, use_decimal=True)
 
-def populate_mock_s3(experiment_id):
-    logger.debug(
-        "Downloading data file to upload to mock S3 "
-        f"for experiment id {experiment_id} ..."
-    )
+        dynamo = boto3.resource("dynamodb", endpoint_url=LOCALSTACK_ENDPOINT)
+        table = dynamo.Table("{}-{}".format(table_name, ENVIROMENT))
 
-    FILES = [f"{DATASETS_LOCATION}/r.rds.gz"]
-
-    for f in FILES:
-
-        if USE_LOCAL_DATA:
-
-            logger.debug(f"Using local data {f}")
-
-            with open(f, mode="rb") as r:
-                r.raw.decode_content = True
-                contents = gzip.GzipFile(fileobj=r.raw, mode="rb")
-
-                key = f"{experiment_id}/{Path(f).stem}"
-
-                logger.debug(f"Found {f}, now uploading to S3 as {key} ...")
-                s3 = boto3.resource("s3", endpoint_url="http://localstack:4566")
-
-                s3.Object(
-                    find_biomage_source_bucket_name(), f"{experiment_id}/{Path(f).stem}"
-                ).upload_fileobj(Fileobj=contents, Config=config)
-
+        if data.get("records"):
+            for data_item in data["records"]:
+                table.put_item(Item=data_item)
         else:
+            table.put_item(Item=data)
 
-            logger.debug(f"Downloading {f}")
 
-            with requests.get(f, allow_redirects=True, stream=True) as r:
-                r.raw.decode_content = True
-                contents = gzip.GzipFile(fileobj=r.raw, mode="rb")
+def update_S3(experiment_id, f):
+    with open(f, mode="rb") as r:
+        r.raw.decode_content = True
+        contents = gzip.GzipFile(fileobj=r.raw, mode="rb")
 
-                key = f"{experiment_id}/{Path(f).stem}"
+        s3 = boto3.resource("s3", endpoint_url=LOCALSTACK_ENDPOINT)
 
-                logger.debug(f"Downloaded {f}, now uploading to S3 as {key} ...")
-                s3 = boto3.resource("s3", endpoint_url="http://localstack:4566")
-                s3.Object(
-                    find_biomage_source_bucket_name(), f"{experiment_id}/{Path(f).stem}"
-                ).put(Body=contents.read())
+        s3.Object(
+            SOURCE_BUCKET_NAME,
+            f"{experiment_id}/{Path(f).stem}",
+        ).upload_fileobj(Fileobj=contents, Config=config)
 
-    logger.info("Mocked experiment data successfully uploaded to S3.")
+
+def populate_localstack():
+    for experiment_id in get_experiments():
+        logger.info(f"Loading data for {experiment_id}:")
+
+        # for each file in the experiment current folder either upload it to localstack
+        # S3 or to dynamoDB
+        for f in glob(f"{DATA_LOCATION}/{experiment_id}/*"):
+            handle_file(experiment_id, f)
 
 
 def main():
-
     logger.info(
         "InfraMock local service started. Waiting for LocalStack to be brought up..."
     )
-
-    logger.info(f"Active experiment id is : {EXPERIMENT_ID}")
 
     wait_for_localstack()
 
@@ -166,10 +159,7 @@ def main():
 
     if POPULATE_MOCK == "true":
         logger.info("Going to populate mock S3/DynamoDB with experiment data.")
-        mock_experiment = populate_mock_dynamo(experiment_id=EXPERIMENT_ID)
-
-        logger.info("Going to upload mocked experiment data to S3.")
-        populate_mock_s3(experiment_id=EXPERIMENT_ID)
+        populate_localstack()
 
     region = os.getenv("AWS_DEFAULT_REGION")
     logger.info("*" * 80)
@@ -179,4 +169,5 @@ def main():
     logger.info("*" * 80)
 
 
-main()
+if __name__ == "__main__":
+    main()

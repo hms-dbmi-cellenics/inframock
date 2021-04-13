@@ -8,13 +8,18 @@ It can also, optionally, populate this stack with real data if local development
 How to use it
 -------------
 
-On MacOS, run
+The following command will build and execute the inframock environment loading all the experiment data found in `./data` folder:
 
-    docker-compose up --build
+    make run
 
-On Linux, run
+If you want to reload the data you can run the following without having to stop inframock:
 
-    docker-compose -f docker-compose.linux-dev.yaml up --build
+    make reload-data
+
+This will only reload input data found in `./data`. It will not erase generated files present in S3 & DynamoDB like processed matrices, or plots. If you need a clean environment re-run inframock.
+
+Run `make help` for more information about available commands like python linting and autoformatting.
+
 
 You may want to use some additional environment variables. See the section down below for those.
 
@@ -35,30 +40,44 @@ Environment variables
 
 The following environment variables are exposed for InfraMock:
 
-`EXPERIMENT_ID` : set the experiment ID, or leave unset for default experiment.
+`BIOMAGE_DATA_PATH`: where to get the experiment data to populate inframock's S3 and DynamoDB. If
+this is not set, it will default to `./data`.
 
-`POPULATE_MOCK`: whether localstack should be filled with a mocked PBMC data set. This is
-set to `true` by default, which means that InfraMock will try to use a locally running version of
-the `api` to populate the localstack DynamoDB database with using its `/experiments/generate` endpoint.
-For this to work, `api` **must** be running with `CLUSTER_ENV` set to `development`, which is the default behavior.
-
-`MOCK_EXPERIMENT_DATA_PATH`: where to get the mocked data for upload to the local S3 from. If
-this is not set, it will default to the Github URL where the dataset used for the `worker` unit
-test is located.
+`POPULATE_MOCK`: whether localstack should be filled with the data sets found in `BIOMAGE_DATA_PATH`.
+For this to work, `CLUSTER_ENV` must be set to `development`, which is the default behavior.
 
 `AWS_DEFAULT_REGION`: the default mocked region for your infrastructure to be deployed under. If it's not set,
 it defaults to `eu-west-1`.
 
-`USE_LOCAL_DATA`: Flag to use local data or pull from Github. Set to `false` by defult. Set to `true` to use local data.
-
-Using local copy of data
+Adding custom data
 ---------------------
 
-Everytime Inframock is run, it will pull data from [](https://github.com/biomage-ltd/worker/tree/master/data/test). These files can be large. Inframock has `USE_LOCAL_DATA` environment variable path to command inframock to use local data. To use this feature :
+Inframock loads automatically the experiments found in the `./data` folder. The default experiment included is the same found in the worker repo [here](https://github.com/biomage-ltd/worker/blob/master/data/test/r.rds.gz). The expected format for loading data is the following:
 
-1. Place data files (e.g. `rds.gz`, `h5ad.gz`) to `src/data`. You can copy these files from your worker’s local copy in `data/test` or download them from [](https://github.com/biomage-ltd/worker/tree/master/data/test).
-2. Build Inframock: `docker-compose build`
-3. Run docker using the environment variable : `USE_LOCAL_DATA=true docker-compose up`
+/data
+|-- e52b39624588791a7889e39c617f669e
+|   |-- mock_experiment.json
+|   |-- mock_plots_tables.json
+|   |-- mock_samples.json
+|   `-- r.rds.gz
+
+The naming convention for those files is:
+ * Files for DynamoDB must match:
+     * `mock_plots_tables*.json`
+     * `mock_samples*.json`
+     * `mock_experiment*.json`
+ * Files for S3 must be named `r.rds.gz`
+ * Files named in any other way will be ignored
+
+You can add more data just add a new folder with the desired experiment ID and the 4 required files. If you need to reload your input data because you did
+some changes you can just run `make reload-data` without having to stop inframock first. 
+
+**Notes**
+
+* Manually adding data is not advised as it can lead to inconsistent states easily
+* The recommendation is to use `biomage-utils` to download & synchronize experiments from staging or production (to be implemented soon) 
+* If you do add manually data, make sure the mock files and the r.rds.gz come from the same environment to avoid inconsistencies (i.e. copy both the rds & mock files from the same experiment in staging or production).
+
 
 FAQ
 ---
