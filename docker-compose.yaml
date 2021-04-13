@@ -33,7 +33,7 @@ services:
       - "~/.docker:/root/.docker"
   service:
     container_name: "biomage-inframock-service"
-    build: ./python
+    build: .
     links:
       - "localstack:localstack"
     volumes:
