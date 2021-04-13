@@ -61,6 +61,14 @@ Inframock loads automatically the experiments found in the `./data` folder. The 
 |   |-- mock_samples.json
 |   `-- r.rds.gz
 
+The naming convention for those files is:
+ * Files for DynamoDB must match:
+     * `mock_plots_tables*.json`
+     * `mock_samples*.json`
+     * `mock_experiment*.json`
+ * Files for S3 must be named `r.rds.gz`
+ * Files named in any other way will be ignored
+
 You can add more data just add a new folder with the desired experiment ID and the 4 required files. If you need to reload your input data because you did
 some changes you can just run `make reload-data` without having to stop inframock first. 
 
