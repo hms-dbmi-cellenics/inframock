@@ -98,3 +98,34 @@ will give you the following output:
 You can also use tools like [medis](https://github.com/luin/medis) for interactively debugging the local
 Redis cache, and [NoSQL Workbench](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/workbench.html)
 to inspect and modify the current state of the local DynamoDB instance (`Operation Builder -> Add Connection`).
+
+Troubleshooting
+---------------
+
+**Pipeline error:
+When starting pipeline (npm start from local-runner dir) after having started Inframock and Pipeline, Inframock can throws this error below:
+
+```
+biomage-inframock-localstack | 2021-04-13T10:06:47:ERROR:cloudformation_api: Exception on / [POST]
+biomage-inframock-localstack | Traceback (most recent call last):
+biomage-inframock-localstack |   File 
+...
+biomage-inframock-localstack |   File "/opt/code/localstack/localstack/utils/cloudformation/template_deployer.py", line 1759, in delete_stack
+biomage-inframock-localstack |     self.stack.set_stack_status('DELETE_IN_PROGRESS')
+```
+A possible workaround - For some reason it seems to not throw the error if I kill the pipeline and restart at again (whilst keeping inframock/api running).
+
+
+**Docker error:
+
+Inframock sometimes throws this error:
+
+```
+biomage-inframock-localstack | "docker kill" requires at least 1 argument(s).
+biomage-inframock-localstack | See 'docker kill --help'.
+biomage-inframock-localstack |
+biomage-inframock-localstack | Usage:  docker kill [OPTIONS] CONTAINER [CONTAINER...]
+```
+
+This problem couln't really be solved, but accroding to Marcel, that is an expected behavior, the idea is that it will try to kill an existing pipeline worker, but if it doesnt exist it doesnt throw. A similar thing happens in staging/production, Kubernetes will try to remove a Job that doesnt exist, return an error, that gets swallowed by the pipeline.
+
