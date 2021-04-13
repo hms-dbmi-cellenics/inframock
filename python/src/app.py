@@ -20,8 +20,9 @@ logger.addHandler(out_hdlr)
 logger.setLevel(logging.DEBUG)
 
 POPULATE_MOCK = os.getenv("POPULATE_MOCK")
-DATA_LOCATION = os.getenv("LOCAL_DATA_PATH")
 
+# data is always mounted into /data regardless of the origin location
+DATA_LOCATION = "/data"
 ENVIROMENT = "development"
 LOCALSTACK_ENDPOINT = "http://localstack:4566"
 SOURCE_BUCKET_NAME = "biomage-source-development"

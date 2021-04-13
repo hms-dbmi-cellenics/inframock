@@ -12,10 +12,6 @@ The following command will build and execute the inframock environment loading a
 
     make run
 
-**Note** On Linux you will need to set first the environment variable `DOCKER_COMPOSE_FILE` to point to the linux docker-compose file:
-
-    export DOCKER_COMPOSE_FILE='docker-compose.linux-dev.yaml'
-
 If you want to reload the data you can run the following without having to stop inframock:
 
     make reload-data
@@ -44,11 +40,11 @@ Environment variables
 
 The following environment variables are exposed for InfraMock:
 
-`POPULATE_MOCK`: whether localstack should be filled with a mocked PBMC data set. 
-For this to work, `CLUSTER_ENV` must be set to `development`, which is the default behavior.
-
-`MOCK_EXPERIMENT_DATA_PATH`: where to get the mocked data for upload to the local S3 from. If
+`BIOMAGE_DATA_PATH`: where to get the experiment data to populate inframock's S3 and DynamoDB. If
 this is not set, it will default to `./data`.
+
+`POPULATE_MOCK`: whether localstack should be filled with the data sets found in `BIOMAGE_DATA_PATH`.
+For this to work, `CLUSTER_ENV` must be set to `development`, which is the default behavior.
 
 `AWS_DEFAULT_REGION`: the default mocked region for your infrastructure to be deployed under. If it's not set,
 it defaults to `eu-west-1`.

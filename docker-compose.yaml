@@ -37,7 +37,7 @@ services:
     links:
       - "localstack:localstack"
     volumes:
-      - "./data:/data"
+      - "${BIOMAGE_DATA_PATH-./data}:/data"
     environment:
       # pre-defined (mocked) AWS credentials
       - AWS_ACCESS_KEY_ID=SOME_MOCKED_KEY
@@ -47,6 +47,3 @@ services:
       # whether to populate the database with a mocked experiment
       # and upload corresponding experiment file to InfraMock S3
       - POPULATE_MOCK=${POPULATE_MOCK-true}
-
-      # path where to find the experiments' data 
-      - LOCAL_DATA_PATH=${LOCAL_DATA_PATH-/data}
