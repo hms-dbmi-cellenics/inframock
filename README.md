@@ -10,7 +10,9 @@ How to use it
 
 The following command will build and execute the inframock environment loading all the experiment data found in `./data` folder:
 
-    make run
+    make build && make run
+
+Use only `make run` if you don't want to rebuild the docker images.
 
 If you want to reload the data you can run the following without having to stop inframock:
 
