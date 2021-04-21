@@ -56,12 +56,14 @@ Adding custom data
 
 Inframock loads automatically the experiments found in the `BIOMAGE_DATA_PATH` folder. The default experiment included is the same found in the worker repo [here](https://github.com/biomage-ltd/worker/blob/master/data/test/r.rds.gz). The expected format for loading data is the following:
 
-/data
-|-- e52b39624588791a7889e39c617f669e
-|   |-- mock_experiment.json
-|   |-- mock_plots_tables.json
-|   |-- mock_samples.json
-|   `-- r.rds.gz
+
+    /data
+    |-- e52b39624588791a7889e39c617f669e
+    |   |-- mock_experiment.json
+    |   |-- mock_plots_tables.json
+    |   |-- mock_samples.json
+    |   `-- r.rds.gz
+
 
 The naming convention for those files is:
  * Files for DynamoDB must match:
@@ -104,8 +106,8 @@ to inspect and modify the current state of the local DynamoDB instance (`Operati
 Troubleshooting
 ---------------
 
-**Pipeline error:
-When starting pipeline (npm start from local-runner dir) after having started Inframock and Pipeline, Inframock can throws this error below:
+**Pipeline error after restarting Inframock**
+When restarting pipeline (npm start from local-runner dir) after having started Inframock and Pipeline before, Inframock can throws this error below:
 
 ```
 biomage-inframock-localstack | 2021-04-13T10:06:47:ERROR:cloudformation_api: Exception on / [POST]
@@ -115,12 +117,12 @@ biomage-inframock-localstack |   File
 biomage-inframock-localstack |   File "/opt/code/localstack/localstack/utils/cloudformation/template_deployer.py", line 1759, in delete_stack
 biomage-inframock-localstack |     self.stack.set_stack_status('DELETE_IN_PROGRESS')
 ```
-A possible workaround - For some reason it seems to not throw the error if I kill the pipeline and restart at again (whilst keeping inframock/api running).
+This happens in situations when the previous run of Inframock hasn't been stopped successfully - the problem is that the old Cloudformation stack is being deleted as we are creating the new one. The way to fix this problem is to kill the containers that are running and then start Inframock again.
 
 
-**Docker error:
+**Docker error after trying to kill currently running containers**
 
-Inframock sometimes throws this error:
+Docker throws this error when we try to kill currently running containers:
 
 ```
 biomage-inframock-localstack | "docker kill" requires at least 1 argument(s).
@@ -129,5 +131,5 @@ biomage-inframock-localstack |
 biomage-inframock-localstack | Usage:  docker kill [OPTIONS] CONTAINER [CONTAINER...]
 ```
 
-This problem couln't really be solved, but accroding to Marcel, that is an expected behavior, the idea is that it will try to kill an existing pipeline worker, but if it doesnt exist it doesnt throw. A similar thing happens in staging/production, Kubernetes will try to remove a Job that doesnt exist, return an error, that gets swallowed by the pipeline.
+That is an expected behavior, the idea is that it will try to kill an existing pipeline worker, but if it doesn't exist it doesn't throw. A similar thing happens in staging/production, Kubernetes will try to remove a Job that doesnt exist, return an error, that gets swallowed by the pipeline.
 
