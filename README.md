@@ -8,7 +8,7 @@ It can also, optionally, populate this stack with real data if local development
 How to use it
 -------------
 
-The following command will build and execute the inframock environment loading all the experiment data found in `./data` folder:
+The following command will build and execute the inframock environment loading all the experiment data found in `BIOMAGE_DATA_PATH` folder:
 
     make build && make run
 
@@ -18,7 +18,7 @@ If you want to reload the data you can run the following without having to stop 
 
     make reload-data
 
-This will only reload input data found in `./data`. It will not erase generated files present in S3 & DynamoDB like processed matrices, or plots. If you need a clean environment re-run inframock.
+This will only reload input data found in `BIOMAGE_DATA_PATH`. It will not erase generated files present in S3 & DynamoDB like processed matrices, or plots. If you need a clean environment re-run inframock.
 
 Run `make help` for more information about available commands like python linting and autoformatting.
 
@@ -42,8 +42,8 @@ Environment variables
 
 The following environment variables are exposed for InfraMock:
 
-`BIOMAGE_DATA_PATH`: where to get the experiment data to populate inframock's S3 and DynamoDB. If
-this is not set, it will default to `./data`.
+`BIOMAGE_DATA_PATH`: where to get the experiment data to populate inframock's S3 and DynamoDB. It is recommended
+to place it outside any other repositories to avoid interactions with git. For example, `export BIOMAGE_DATA_PATH=$HOME/biomage-data` (or next to where your biomage repos live). If this is not set, it will default to `./data`. **Note**: this should be permanently added to your environment (e.g. in `.zshrc`, `.localrc` or similar) because other services like `biomage-utils` or `worker` rely on using the same path.
 
 `POPULATE_MOCK`: whether localstack should be filled with the data sets found in `BIOMAGE_DATA_PATH`.
 For this to work, `CLUSTER_ENV` must be set to `development`, which is the default behavior.
@@ -54,7 +54,7 @@ it defaults to `eu-west-1`.
 Adding custom data
 ---------------------
 
-Inframock loads automatically the experiments found in the `./data` folder. The default experiment included is the same found in the worker repo [here](https://github.com/biomage-ltd/worker/blob/master/data/test/r.rds.gz). The expected format for loading data is the following:
+Inframock loads automatically the experiments found in the `BIOMAGE_DATA_PATH` folder. The default experiment included is the same found in the worker repo [here](https://github.com/biomage-ltd/worker/blob/master/data/test/r.rds.gz). The expected format for loading data is the following:
 
 /data
 |-- e52b39624588791a7889e39c617f669e
