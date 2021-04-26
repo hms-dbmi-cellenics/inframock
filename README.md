@@ -107,7 +107,7 @@ Troubleshooting
 ---------------
 
 **Pipeline error after restarting Inframock**
-When restarting pipeline (npm start from local-runner dir) after having started Inframock and Pipeline before, Inframock can throws this error below:
+When restarting pipeline (`make run` from pipeline dir) after having started Inframock and Pipeline before, Inframock can throws this error below:
 
 ```
 biomage-inframock-localstack | 2021-04-13T10:06:47:ERROR:cloudformation_api: Exception on / [POST]
