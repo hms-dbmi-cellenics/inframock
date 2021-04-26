@@ -8,15 +8,17 @@ It can also, optionally, populate this stack with real data if local development
 How to use it
 -------------
 
-The following command will build and execute the inframock environment loading all the experiment data found in `./data` folder:
+The following command will build and execute the inframock environment loading all the experiment data found in `BIOMAGE_DATA_PATH` folder:
 
-    make run
+    make build && make run
+
+Use only `make run` if you don't want to rebuild the docker images.
 
 If you want to reload the data you can run the following without having to stop inframock:
 
     make reload-data
 
-This will only reload input data found in `./data`. It will not erase generated files present in S3 & DynamoDB like processed matrices, or plots. If you need a clean environment re-run inframock.
+This will only reload input data found in `BIOMAGE_DATA_PATH`. It will not erase generated files present in S3 & DynamoDB like processed matrices, or plots. If you need a clean environment re-run inframock.
 
 Run `make help` for more information about available commands like python linting and autoformatting.
 
@@ -40,8 +42,8 @@ Environment variables
 
 The following environment variables are exposed for InfraMock:
 
-`BIOMAGE_DATA_PATH`: where to get the experiment data to populate inframock's S3 and DynamoDB. If
-this is not set, it will default to `./data`.
+`BIOMAGE_DATA_PATH`: where to get the experiment data to populate inframock's S3 and DynamoDB. It is recommended
+to place it outside any other repositories to avoid interactions with git. For example, `export BIOMAGE_DATA_PATH=$HOME/biomage-data` (or next to where your biomage repos live). If this is not set, it will default to `./data`. **Note**: this should be permanently added to your environment (e.g. in `.zshrc`, `.localrc` or similar) because other services like `biomage-utils` or `worker` rely on using the same path.
 
 `POPULATE_MOCK`: whether localstack should be filled with the data sets found in `BIOMAGE_DATA_PATH`.
 For this to work, `CLUSTER_ENV` must be set to `development`, which is the default behavior.
@@ -52,14 +54,16 @@ it defaults to `eu-west-1`.
 Adding custom data
 ---------------------
 
-Inframock loads automatically the experiments found in the `./data` folder. The default experiment included is the same found in the worker repo [here](https://github.com/biomage-ltd/worker/blob/master/data/test/r.rds.gz). The expected format for loading data is the following:
+Inframock loads automatically the experiments found in the `BIOMAGE_DATA_PATH` folder. The default experiment included is the same found in the worker repo [here](https://github.com/biomage-ltd/worker/blob/master/data/test/r.rds.gz). The expected format for loading data is the following:
 
-/data
-|-- e52b39624588791a7889e39c617f669e
-|   |-- mock_experiment.json
-|   |-- mock_plots_tables.json
-|   |-- mock_samples.json
-|   `-- r.rds.gz
+
+    /data
+    |-- e52b39624588791a7889e39c617f669e
+    |   |-- mock_experiment.json
+    |   |-- mock_plots_tables.json
+    |   |-- mock_samples.json
+    |   `-- r.rds.gz
+
 
 The naming convention for those files is:
  * Files for DynamoDB must match:
@@ -95,6 +99,9 @@ will give you the following output:
     2021-01-06 18:05:43  149752480 python.h5ad
     2021-01-06 18:06:05   65803978 r.rds
 
+where `biomage-source-development` is the name of the s3 bucket that is created by inframock when starting the
+local development infrastructure and `5e959f9c9f4b120771249001` is the experiment id that you are using locally.
+
 You can also use tools like [medis](https://github.com/luin/medis) for interactively debugging the local
 Redis cache, and [NoSQL Workbench](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/workbench.html)
 to inspect and modify the current state of the local DynamoDB instance (`Operation Builder -> Add Connection`).
@@ -102,8 +109,8 @@ to inspect and modify the current state of the local DynamoDB instance (`Operati
 Troubleshooting
 ---------------
 
-**Pipeline error:
-When starting pipeline (npm start from local-runner dir) after having started Inframock and Pipeline, Inframock can throws this error below:
+**Pipeline error after restarting Inframock**
+When restarting pipeline (`make run` from pipeline dir) after having started Inframock and Pipeline before, Inframock can throws this error below:
 
 ```
 biomage-inframock-localstack | 2021-04-13T10:06:47:ERROR:cloudformation_api: Exception on / [POST]
@@ -113,12 +120,12 @@ biomage-inframock-localstack |   File
 biomage-inframock-localstack |   File "/opt/code/localstack/localstack/utils/cloudformation/template_deployer.py", line 1759, in delete_stack
 biomage-inframock-localstack |     self.stack.set_stack_status('DELETE_IN_PROGRESS')
 ```
-A possible workaround - For some reason it seems to not throw the error if I kill the pipeline and restart at again (whilst keeping inframock/api running).
+This happens in situations when the previous run of Inframock hasn't been stopped successfully - the problem is that the old Cloudformation stack is being deleted as we are creating the new one. The way to fix this problem is to kill the containers that are running and then start Inframock again.
 
 
-**Docker error:
+**Docker error after trying to kill currently running containers**
 
-Inframock sometimes throws this error:
+Docker throws this error when we try to kill currently running containers:
 
 ```
 biomage-inframock-localstack | "docker kill" requires at least 1 argument(s).
@@ -127,5 +134,5 @@ biomage-inframock-localstack |
 biomage-inframock-localstack | Usage:  docker kill [OPTIONS] CONTAINER [CONTAINER...]
 ```
 
-This problem couln't really be solved, but accroding to Marcel, that is an expected behavior, the idea is that it will try to kill an existing pipeline worker, but if it doesnt exist it doesnt throw. A similar thing happens in staging/production, Kubernetes will try to remove a Job that doesnt exist, return an error, that gets swallowed by the pipeline.
+That is an expected behavior, the idea is that it will try to kill an existing pipeline worker, but if it doesn't exist it doesn't throw. A similar thing happens in staging/production, Kubernetes will try to remove a Job that doesnt exist, return an error, that gets swallowed by the pipeline.
 
