@@ -99,6 +99,9 @@ will give you the following output:
     2021-01-06 18:05:43  149752480 python.h5ad
     2021-01-06 18:06:05   65803978 r.rds
 
+where `biomage-source-development` is the name of the s3 bucket that is created by inframock when starting the
+local development infrastructure and `5e959f9c9f4b120771249001` is the experiment id that you are using locally.
+
 You can also use tools like [medis](https://github.com/luin/medis) for interactively debugging the local
 Redis cache, and [NoSQL Workbench](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/workbench.html)
 to inspect and modify the current state of the local DynamoDB instance (`Operation Builder -> Add Connection`).
