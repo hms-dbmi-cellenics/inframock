@@ -31,7 +31,7 @@ CELL_SETS_BUCKET_NAME = "cell-sets-development"
 MB = 1024 ** 2
 config = TransferConfig(multipart_threshold=20 * MB)
 
-dynamodb_mocks = ["mock_experiment.json", "mock_samples.json", "mock_plots_tables.json"]
+dynamodb_mocks = ["mock_experiment.json", "mock_samples.json"]
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=60)
