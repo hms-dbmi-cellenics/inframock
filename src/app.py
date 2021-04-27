@@ -4,6 +4,7 @@ import os
 import re
 import sys
 from glob import glob
+from io import BytesIO
 from pathlib import Path
 
 import backoff
@@ -26,8 +27,11 @@ DATA_LOCATION = "/data"
 ENVIROMENT = "development"
 LOCALSTACK_ENDPOINT = "http://localstack:4566"
 SOURCE_BUCKET_NAME = "biomage-source-development"
+CELL_SETS_BUCKET_NAME = "cell-sets-development"
 MB = 1024 ** 2
 config = TransferConfig(multipart_threshold=20 * MB)
+
+dynamodb_mocks = ["mock_experiment.json", "mock_samples.json"]
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=60)
@@ -36,7 +40,7 @@ def wait_for_localstack():
     requests.get(LOCALSTACK_ENDPOINT)
 
 
-def get_file_table(filename):
+def get_file_dynamodb_table(filename):
     if re.match("mock_experiment.*.json", filename):
         return "experiments"
 
@@ -95,13 +99,17 @@ def handle_file(experiment_id, f):
     filename = Path(f).name
     logger.info(f" - {filename}")
 
-    if re.match("mock_.*.json", filename):
+    if re.match("|".join(dynamodb_mocks), filename):
         update_dynamoDB(f)
         logger.info(f"\tMocked {filename} loaded into local DynamoDB.")
 
     elif re.match("r.rds.gz", filename):
-        update_S3(experiment_id, f)
+        update_S3_count_matrix(experiment_id, f)
         logger.info("\tMocked experiment data successfully uploaded to S3.")
+
+    elif re.match("mock_cell_sets.json", filename):
+        update_S3_cell_sets(experiment_id, f)
+        logger.info("\tMocked cell sets data successfully uploaded to S3.")
 
     else:
         logger.warning(f"\tUnknown input file {filename}, continuing")
@@ -110,7 +118,7 @@ def handle_file(experiment_id, f):
 def update_dynamoDB(f):
     filename = Path(f).name
     with open(f) as json_file:
-        table_name = get_file_table(filename)
+        table_name = get_file_dynamodb_table(filename)
 
         data = json.load(json_file, use_decimal=True)
 
@@ -124,7 +132,7 @@ def update_dynamoDB(f):
             table.put_item(Item=data)
 
 
-def update_S3(experiment_id, f):
+def update_S3_count_matrix(experiment_id, f):
     with open(f, mode="rb") as r:
         r.raw.decode_content = True
         contents = gzip.GzipFile(fileobj=r.raw, mode="rb")
@@ -135,6 +143,18 @@ def update_S3(experiment_id, f):
             SOURCE_BUCKET_NAME,
             f"{experiment_id}/{Path(f).stem}",
         ).upload_fileobj(Fileobj=contents, Config=config)
+
+
+def update_S3_cell_sets(experiment_id, f):
+    with open(f, mode="rb") as file_handle:
+
+        buf = BytesIO(file_handle.read())
+
+        s3 = boto3.resource("s3", endpoint_url=LOCALSTACK_ENDPOINT)
+
+        s3.Object(CELL_SETS_BUCKET_NAME, f"{experiment_id}").upload_fileobj(
+            Fileobj=buf, Config=config
+        )
 
 
 def populate_localstack():
