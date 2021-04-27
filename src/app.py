@@ -4,6 +4,7 @@ import os
 import re
 import sys
 from glob import glob
+from io import BytesIO
 from pathlib import Path
 
 import backoff
@@ -107,7 +108,7 @@ def handle_file(experiment_id, f):
         logger.info("\tMocked experiment data successfully uploaded to S3.")
 
     elif re.match("mock_cell_sets.json", filename):
-        update_S3_cell_sets(experiment_id, filename)
+        update_S3_cell_sets(experiment_id, f)
         logger.info("\tMocked cell sets data successfully uploaded to S3.")
 
     else:
@@ -144,12 +145,16 @@ def update_S3_count_matrix(experiment_id, f):
         ).upload_fileobj(Fileobj=contents, Config=config)
 
 
-def update_S3_cell_sets(experiment_id, filename):
-    s3 = boto3.resource("s3", endpoint_url=LOCALSTACK_ENDPOINT)
+def update_S3_cell_sets(experiment_id, f):
+    with open(f, mode="rb") as file_handle:
 
-    bucket_object = s3.Object(CELL_SETS_BUCKET_NAME, f"{experiment_id}")
+        buf = BytesIO(file_handle.read())
 
-    bucket_object.upload_file(f"../data/{experiment_id}/{filename}")
+        s3 = boto3.resource("s3", endpoint_url=LOCALSTACK_ENDPOINT)
+
+        s3.Object(CELL_SETS_BUCKET_NAME, f"{experiment_id}").upload_fileobj(
+            Fileobj=buf, Config=config
+        )
 
 
 def populate_localstack():
