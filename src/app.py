@@ -31,7 +31,7 @@ CELL_SETS_BUCKET_NAME = "cell-sets-development"
 MB = 1024 ** 2
 config = TransferConfig(multipart_threshold=20 * MB)
 
-dynamodb_mocks = ["mock_experiment.json", "mock_samples.json"]
+dynamodb_mocks = ["mock_experiment.json", "mock_samples.json", "mock_plots_tables.json"]
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=60)
@@ -125,7 +125,7 @@ def update_dynamoDB(f):
         dynamo = boto3.resource("dynamodb", endpoint_url=LOCALSTACK_ENDPOINT)
         table = dynamo.Table("{}-{}".format(table_name, ENVIROMENT))
 
-        if data.get("records"):
+        if "records" in data:
             for data_item in data["records"]:
                 table.put_item(Item=data_item)
         else:
