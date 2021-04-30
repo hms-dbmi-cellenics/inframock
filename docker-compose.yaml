@@ -10,7 +10,7 @@ services:
       - "6379:6379"
   localstack:
     container_name: "biomage-inframock-localstack"
-    image: "localstack/localstack:0.12.6"
+    image: "localstack/localstack:0.12.10"
     ports:
       # forward out edge port. set boto3's `endpoint_url`
       # to be http://localhost:4566 to use localstack for development
@@ -40,6 +40,7 @@ services:
     volumes:
       - "${BIOMAGE_DATA_PATH-./data}:/data"
     environment:
+      - PYTHONUNBUFFERED=1
       # pre-defined (mocked) AWS credentials
       - AWS_ACCESS_KEY_ID=SOME_MOCKED_KEY
       - AWS_SECRET_ACCESS_KEY=SOME_MOCKED_SECRET

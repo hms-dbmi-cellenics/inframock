@@ -65,16 +65,18 @@ def get_experiments():
 def provision_biomage_stack():
     resources = ("dynamo", "s3", "sns")
 
-    cf = boto3.resource("cloudformation", endpoint_url=LOCALSTACK_ENDPOINT)
+    cf = boto3.client("cloudformation", endpoint_url=LOCALSTACK_ENDPOINT)
 
-    for r in resources:
-        path = f"https://raw.githubusercontent.com/biomage-ltd/iac/master/cf/{r}.yaml"
+    for resource in resources:
+        path = f"https://raw.githubusercontent.com/biomage-ltd/iac/master/cf/{resource}.yaml"
 
-        r = requests.get(path)
-        stack_template = r.text
+        response = requests.get(path)
+        stack_template = response.text
+        stack_name = f"biomage-{resource}-development" 
 
-        stack = cf.create_stack(
-            StackName=f"biomage-{r}-development",
+        logger.info(f"Creating stack {stack_name}...")
+        cf.create_stack(
+            StackName=stack_name,
             TemplateBody=stack_template,
             Parameters=[
                 {
@@ -83,13 +85,12 @@ def provision_biomage_stack():
                 },
             ],
         )
+        waiter = cf.get_waiter('stack_create_complete')
+        waiter.wait(StackName=stack_name)
+        logger.info(f"Stack {stack_name} created.")
 
     sns = boto3.client("sns", endpoint_url=LOCALSTACK_ENDPOINT)
     logger.info("SNS topics: %s" % sns.list_topics())
-
-    logger.info("Stack created.")
-    return stack
-
 
 def handle_file(experiment_id, f):
     # handle file will:
