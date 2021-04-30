@@ -32,7 +32,7 @@ build: ## Builds the docker-compose environment
 	@docker-compose $(docker_files) build
 	@echo "    [✓]\n"
 run: build ## Runs the docker environment
-	@docker-compose $(docker_files) up
+	@docker-compose $(docker_files) up --force-recreate
 reload-data: ## Reloads the input data found in ./data. NOTE: it will not remove from s3 & dynamo generated data like processed matrices, or plots. If you need a clean start, stop & re-run inframock.
 	@docker-compose $(docker_files)  up -d --no-deps --build service
 .PHONY: bootstrap fmt check build run clean help
