@@ -63,21 +63,25 @@ def get_experiments():
 
 
 def provision_biomage_stack():
-    resources = ("dynamo", "s3", "sns")
+
+    def stack_name(resource):
+        return f"biomage-{resource}-development"
+
 
     cf = boto3.client("cloudformation", endpoint_url=LOCALSTACK_ENDPOINT)
-
+    logger.info("Expect harmless error on localstack.services.sns.sns_listener if the API is not running")
+    resources = ("dynamo", "s3", "sns")
     for resource in resources:
         path = f"https://raw.githubusercontent.com/biomage-ltd/iac/master/cf/{resource}.yaml"
 
         response = requests.get(path)
-        stack_template = response.text
-        stack_name = f"biomage-{resource}-development" 
+        template = response.text
+        name = stack_name(resource)
 
-        logger.info(f"Creating stack {stack_name}...")
+        logger.info(f"Creating stack {name}...")
         cf.create_stack(
-            StackName=stack_name,
-            TemplateBody=stack_template,
+            StackName=name,
+            TemplateBody=template,
             Parameters=[
                 {
                     "ParameterKey": "Environment",
@@ -85,12 +89,16 @@ def provision_biomage_stack():
                 },
             ],
         )
-        waiter = cf.get_waiter('stack_create_complete')
-        waiter.wait(StackName=stack_name)
-        logger.info(f"Stack {stack_name} created.")
+
+    waiter = cf.get_waiter('stack_create_complete')
+    for resource in resources:
+        name = stack_name(resource)
+        waiter.wait(StackName=name)
+        logger.info(f"Stack {name} created.")
 
     sns = boto3.client("sns", endpoint_url=LOCALSTACK_ENDPOINT)
-    logger.info("SNS topics: %s" % sns.list_topics())
+    logger.info("SNS topics: %s" % sns.list_topics()["Topics"])
+    logger.info("SNS subscriptions: %s" % sns.list_subscriptions()["Subscriptions"])
 
 def handle_file(experiment_id, f):
     # handle file will:
