@@ -100,15 +100,15 @@ def handle_file(experiment_id, f):
     filename = Path(f).name
     logger.info(f" - {filename}")
 
-    if re.match("|".join(dynamodb_mocks), filename):
+    if re.match("|".join([f"^{mock}$" for mock in dynamodb_mocks]), filename):
         update_dynamoDB(f)
         logger.info(f"\tMocked {filename} loaded into local DynamoDB.")
 
-    elif re.match("r.rds.gz", filename):
+    elif re.match("^r.rds.gz$", filename):
         update_S3_count_matrix(experiment_id, f)
         logger.info("\tMocked experiment data successfully uploaded to S3.")
 
-    elif re.match("mock_cell_sets.json", filename):
+    elif re.match("^mock_cell_sets.json$", filename):
         update_S3_cell_sets(experiment_id, f)
         logger.info("\tMocked cell sets data successfully uploaded to S3.")
 
