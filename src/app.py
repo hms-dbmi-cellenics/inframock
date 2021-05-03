@@ -12,6 +12,7 @@ import boto3
 import requests
 import simplejson as json
 from boto3.s3.transfer import TransferConfig
+from botocore.exceptions import ClientError
 
 logger = logging.getLogger("inframock")
 out_hdlr = logging.StreamHandler(sys.stdout)
@@ -79,17 +80,23 @@ def provision_biomage_stack():
         name = stack_name(resource)
 
         logger.info(f"Creating stack {name}...")
-        cf.create_stack(
-            StackName=name,
-            TemplateBody=template,
-            Parameters=[
-                {
-                    "ParameterKey": "Environment",
-                    "ParameterValue": "development",
-                },
-            ],
-        )
+        try:
+            cf.create_stack(
+                StackName=name,
+                TemplateBody=template,
+                Parameters=[
+                    {
+                        "ParameterKey": "Environment",
+                        "ParameterValue": "development",
+                    },
+                ],
+            )
+        except ClientError as e:
+            logger.info(e.response['Error']['Message'])
+            if not "already exists" in e.response['Error']['Message']:
+                raise
 
+    logger.info(f"Waiting for stacks creation to complete...")
     waiter = cf.get_waiter('stack_create_complete')
     for resource in resources:
         name = stack_name(resource)
