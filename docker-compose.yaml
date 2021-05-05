@@ -10,7 +10,7 @@ services:
       - "6379:6379"
   localstack:
     container_name: "biomage-inframock-localstack"
-    image: "localstack/localstack:0.12.10"
+    image: "localstack/localstack:0.12.8"
     ports:
       # forward out edge port. set boto3's `endpoint_url`
       # to be http://localhost:4566 to use localstack for development
