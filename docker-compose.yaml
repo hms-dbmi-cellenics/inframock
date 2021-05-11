@@ -26,7 +26,7 @@ services:
       - DOCKER_HOST=unix:///var/run/docker.sock
       - MAIN_CONTAINER_NAME='biomage-inframock-localstack'
       - LAMBDA_EXECUTOR=local
-      - EXTRA_CORS_ALLOWED_HEADERS=amz-sdk-request, amz-sdk-invocation-id
+      - EXTRA_CORS_ALLOWED_HEADERS=amz-sdk-request, amz-sdk-invocation-id, x-amz-meta-cellranger_version
       - EXTRA_CORS_EXPOSE_HEADERS=Etag
     privileged: true
     volumes:
