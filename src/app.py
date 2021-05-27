@@ -10,7 +10,7 @@ from pathlib import Path
 import backoff
 import boto3
 import requests
-import simplejson as json
+import json
 from boto3.s3.transfer import TransferConfig
 from botocore.exceptions import ClientError
 
@@ -131,22 +131,21 @@ def handle_file(experiment_id, f):
         logger.warning(f"\tUnknown input file {filename}, continuing")
 
 
-def update_dynamoDB(f):
-    filename = Path(f).name
-    with open(f) as json_file:
+def update_dynamoDB(json_file):
+    filename = Path(json_file).name
+    with open(json_file) as f:
         table_name = get_file_dynamodb_table(filename)
 
-        data = json.load(json_file, use_decimal=True)
+        data = json.load(f)
 
-        dynamo = boto3.resource("dynamodb", endpoint_url=LOCALSTACK_ENDPOINT)
-        table = dynamo.Table("{}-{}".format(table_name, ENVIROMENT))
+        client = boto3.client("dynamodb", endpoint_url=LOCALSTACK_ENDPOINT)
+        table_name = "{}-{}".format(table_name, ENVIROMENT)
 
         if "records" in data:
             for data_item in data["records"]:
-                table.put_item(Item=data_item)
+                client.put_item(TableName=table_name, Item=data_item)
         else:
-            table.put_item(Item=data)
-
+            client.put_item(TableName=table_name, Item=data)
 
 def update_S3_count_matrix(experiment_id, f):
     with open(f, mode="rb") as r:
