@@ -28,11 +28,12 @@ DATA_LOCATION = "/data"
 ENVIROMENT = "development"
 LOCALSTACK_ENDPOINT = "http://localstack:4566"
 SOURCE_BUCKET_NAME = "biomage-source-development"
+PROCESSED_MATRIX_BUCKET_NAME = "processed-matrix-development"
 CELL_SETS_BUCKET_NAME = "cell-sets-development"
 MB = 1024 ** 2
 config = TransferConfig(multipart_threshold=20 * MB)
 
-dynamodb_mocks = ["mock_experiment.json", "mock_samples.json", "mock_plots_tables.json"]
+dynamodb_mocks = ["mock_experiment.json", "mock_samples.json", "mock_projects.json", "mock_plots_tables.json"]
 
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=60)
@@ -47,6 +48,9 @@ def get_file_dynamodb_table(filename):
 
     if re.match("mock_samples.*.json", filename):
         return "samples"
+
+    if re.match("mock_projects.*.json", filename):
+        return "projects"
 
     if re.match("mock_plots_tables.*.json", filename):
         return "plots-tables"
@@ -120,8 +124,12 @@ def handle_file(experiment_id, f):
         update_dynamoDB(f)
         logger.info(f"\tMocked {filename} loaded into local DynamoDB.")
 
-    elif re.match("^r.rds.gz$", filename):
-        update_S3_count_matrix(experiment_id, f)
+    elif re.match("^biomage-source.r.rds.gz$", filename):
+        update_S3_count_matrix(experiment_id, f, SOURCE_BUCKET_NAME)
+        logger.info("\tMocked experiment data successfully uploaded to S3.")
+
+    elif re.match("^processed-matrix.r.rds.gz$", filename):
+        update_S3_count_matrix(experiment_id, f, PROCESSED_MATRIX_BUCKET_NAME)
         logger.info("\tMocked experiment data successfully uploaded to S3.")
 
     elif re.match("^mock_cell_sets.json$", filename):
@@ -148,7 +156,7 @@ def update_dynamoDB(json_file):
         else:
             client.put_item(TableName=table_name, Item=data)
 
-def update_S3_count_matrix(experiment_id, f):
+def update_S3_count_matrix(experiment_id, f, bucket_name):
     with open(f, mode="rb") as r:
         r.raw.decode_content = True
         contents = gzip.GzipFile(fileobj=r.raw, mode="rb")
@@ -156,7 +164,7 @@ def update_S3_count_matrix(experiment_id, f):
         s3 = boto3.resource("s3", endpoint_url=LOCALSTACK_ENDPOINT)
 
         s3.Object(
-            SOURCE_BUCKET_NAME,
+            bucket_name,
             f"{experiment_id}/{Path(f).stem}",
         ).upload_fileobj(Fileobj=contents, Config=config)
 
