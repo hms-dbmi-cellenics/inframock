@@ -1,0 +1,41 @@
+diff --git a/src/app.py b/src/app.py
+index f2ba67e..f9db5d6 100644
+--- a/src/app.py
++++ b/src/app.py
+@@ -47,9 +47,6 @@ def get_file_dynamodb_table(filename):
+     if re.match("mock_samples.*.json", filename):
+         return "samples"
+ 
+-    if re.match("mock_plots_tables.*.json", filename):
+-        return "plots-tables"
+-
+     # this should not be reachable as the names a prefiltered in handle_file()
+     raise ValueError(f"invalid file provided {filename}")
+ 
+@@ -125,11 +122,7 @@ def update_dynamoDB(f):
+         dynamo = boto3.resource("dynamodb", endpoint_url=LOCALSTACK_ENDPOINT)
+         table = dynamo.Table("{}-{}".format(table_name, ENVIROMENT))
+ 
+-        if data.get("records"):
+-            for data_item in data["records"]:
+-                table.put_item(Item=data_item)
+-        else:
+-            table.put_item(Item=data)
++        table.put_item(Item=data)
+ 
+ 
+ def update_S3_count_matrix(experiment_id, f):
+@@ -148,12 +141,10 @@ def update_S3_count_matrix(experiment_id, f):
+ def update_S3_cell_sets(experiment_id, f):
+     with open(f, mode="rb") as file_handle:
+ 
+-        buf = BytesIO(file_handle.read())
+-
+         s3 = boto3.resource("s3", endpoint_url=LOCALSTACK_ENDPOINT)
+ 
+         s3.Object(CELL_SETS_BUCKET_NAME, f"{experiment_id}").upload_fileobj(
+-            Fileobj=buf, Config=config
++            Fileobj=file_handle, Config=config
+         )
+ 
+ 
