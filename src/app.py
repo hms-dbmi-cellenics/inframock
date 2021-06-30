@@ -122,19 +122,19 @@ def handle_file(experiment_id, f):
 
     if re.match("|".join([f"^{mock}$" for mock in dynamodb_mocks]), filename):
         update_dynamoDB(f)
-        logger.info(f"\tMocked {filename} loaded into local DynamoDB.")
+        logger.info(f"\t{filename} loaded into local DynamoDB.")
 
     elif re.match("^biomage-source.r.rds.gz$", filename):
         update_S3_count_matrix(experiment_id, f, SOURCE_BUCKET_NAME)
-        logger.info("\tMocked experiment data successfully uploaded to S3.")
+        logger.info(f"\t{filename} data successfully uploaded to S3.")
 
     elif re.match("^processed-matrix.r.rds.gz$", filename):
         update_S3_count_matrix(experiment_id, f, PROCESSED_MATRIX_BUCKET_NAME)
-        logger.info("\tMocked experiment data successfully uploaded to S3.")
+        logger.info(f"\t{filename} data successfully uploaded to S3.")
 
     elif re.match("^mock_cell_sets.json$", filename):
         update_S3_cell_sets(experiment_id, f)
-        logger.info("\tMocked cell sets data successfully uploaded to S3.")
+        logger.info(f"\t{filename} data successfully uploaded to S3.")
 
     else:
         logger.warning(f"\tUnknown input file {filename}, continuing")
@@ -165,7 +165,7 @@ def update_S3_count_matrix(experiment_id, f, bucket_name):
 
         s3.Object(
             bucket_name,
-            f"{experiment_id}/{Path(f).stem}",
+            f"{experiment_id}/r.rds",
         ).upload_fileobj(Fileobj=contents, Config=config)
 
 
