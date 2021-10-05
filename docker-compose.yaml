@@ -21,7 +21,7 @@ services:
       # can bring up the stack for development.
       - "4566"
     environment:
-      - SERVICES=sns,sqs,dynamodb,s3,cloudformation,stepfunctions,lambda,iam
+      - SERVICES=sns,sqs,dynamodb,s3,cloudformation,stepfunctions,lambda,iam,ses
       - DEFAULT_REGION=${AWS_DEFAULT_REGION:-eu-west-1}
       - DOCKER_HOST=unix:///var/run/docker.sock
       - MAIN_CONTAINER_NAME='biomage-inframock-localstack'
