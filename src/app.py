@@ -11,6 +11,7 @@ import backoff
 import boto3
 import requests
 import json
+
 from boto3.s3.transfer import TransferConfig
 from botocore.exceptions import ClientError
 
@@ -190,11 +191,8 @@ def populate_localstack():
         for f in glob(f"{DATA_LOCATION}/{experiment_id}/*"):
             handle_file(experiment_id, f)
 
-
 def main():
-    logger.info(
-        "InfraMock local service started. Waiting for LocalStack to be brought up..."
-    )
+    logger.info("InfraMock local service started. Waiting for LocalStack to be brought up...")
 
     wait_for_localstack()
 

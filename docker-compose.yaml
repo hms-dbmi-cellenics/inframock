@@ -1,5 +1,15 @@
 version: "3.2"
 services:
+  postgres:
+    image: "postgres:13-alpine"
+    ports:
+        - "5432:5432"
+    command: --init-file /src/postgres_init.sql
+    volumes:
+        - ./postgres_init.sql:/src/postgres_init.sql
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+  
   redis:
     container_name: "biomage-inframock-redis"
     image: "redis:alpine"
