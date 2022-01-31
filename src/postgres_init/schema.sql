@@ -1,0 +1,17 @@
+-- On creation we are connected to development
+CREATE DATABASE development;
+
+REVOKE ALL ON DATABASE development FROM public;
+
+-- The role used by the api
+CREATE ROLE read_write_role;
+
+GRANT CONNECT ON DATABASE development TO read_write_role;
+
+GRANT USAGE ON SCHEMA public TO read_write_role;
+
+-- Gives these privileges to read_write_role on any table that we create in public
+ALTER DEFAULT PRIVILEGES 
+  FOR ROLE read_write_role
+  IN SCHEMA public
+  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO read_write_role;

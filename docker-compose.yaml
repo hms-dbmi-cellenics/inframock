@@ -1,12 +1,14 @@
 version: "3.2"
 services:
   postgres:
+    container_name: "biomage-inframock-postgres"
     image: "postgres:13-alpine"
+    restart: always
     ports:
-        - "5432:5432"
-    command: --init-file /src/postgres_init.sql
+      - "5432:5432"
     volumes:
-        - ./postgres_init.sql:/src/postgres_init.sql
+    # Run docker rm -f -v biomage-inframock-postgres to re run these files
+      - ./src/postgres_init:/docker-entrypoint-initdb.d/
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
   
