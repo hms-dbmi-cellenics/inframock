@@ -6,17 +6,17 @@ CREATE DATABASE development;
 REVOKE ALL ON DATABASE development FROM public;
 
 -- The role used by the api
-CREATE ROLE read_write_role WITH LOGIN PASSWORD 'password';
+CREATE ROLE api_role WITH LOGIN PASSWORD 'password';
 
-GRANT CONNECT ON DATABASE development TO read_write_role;
+GRANT CONNECT ON DATABASE development TO api_role;
 
-GRANT USAGE ON SCHEMA public TO read_write_role;
+GRANT USAGE ON SCHEMA public TO api_role;
 
--- Gives these privileges to read_write_role on any table that we create in public
+-- Gives these privileges to api_role on any table that we create in public
 ALTER DEFAULT PRIVILEGES 
-  FOR ROLE read_write_role
+  FOR ROLE api_role
   IN SCHEMA public
-  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO read_write_role;
+  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO api_role;
 
 -- Tables
 CREATE TABLE "experiment" (
