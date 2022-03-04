@@ -1,24 +1,19 @@
--- On creation we are connected to development
-CREATE DATABASE development;
+-- To re run these files on next inframock start: "docker rm -f -v biomage-inframock-postgres"
 
-\c development;
+CREATE DATABASE aurora_db;
 
-REVOKE ALL ON DATABASE development FROM public;
+\c aurora_db;
 
 -- The role used by the api
-CREATE ROLE read_write_role WITH LOGIN PASSWORD 'password';
+CREATE ROLE api_role WITH LOGIN PASSWORD 'password';
 
-GRANT CONNECT ON DATABASE development TO read_write_role;
+GRANT USAGE ON SCHEMA public TO api_role;
 
-GRANT USAGE ON SCHEMA public TO read_write_role;
+-- Gives these privileges to api_role on any table that we create in public
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO api_role;
 
--- Gives these privileges to read_write_role on any table that we create in public
-ALTER DEFAULT PRIVILEGES 
-  FOR ROLE read_write_role
-  IN SCHEMA public
-  GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO read_write_role;
-
--- Tables
+-- This isn't where we are going to create the tables and run the migrations
+-- It should be done be in the python code once we have defined a mechanism for running migrations
 CREATE TABLE "experiment" (
   "id" UUID,
   "name" VARCHAR,
