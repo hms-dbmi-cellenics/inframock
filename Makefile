@@ -33,9 +33,11 @@ build: ## Builds the docker-compose environment
 	@echo "    [✓]\n"
 run: build ## Builds & runs the docker environment
 	@docker-compose $(docker_files) up --force-recreate
+migrate:
+	@NODE_ENV=development knex migrate:latest --cwd ../api/src/sql/ --migrations-directory ../api/src/sql/migrations
 cleanup-sql:
 	docker rm -f -v biomage-inframock-postgres
-reload-data: ## Reloads the input data found in ./data. NOTE: it will not remove from s3 & dynamo generated data like processed matrices, or plots. If you need a clean start, stop & re-run inframock.
+reload-data: migrate ## Reloads the input data found in ./data. NOTE: it will not remove from s3 & dynamo generated data like processed matrices, or plots. If you need a clean start, stop & re-run inframock.
 	@docker-compose $(docker_files)  up -d --no-deps --build service
 .PHONY: bootstrap fmt check build run clean help
 clean: ## Cleans up temporary files
