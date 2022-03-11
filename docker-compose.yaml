@@ -5,13 +5,14 @@ services:
     image: "postgres:13-alpine"
     restart: always
     ports:
-      - "5432:5432"
+      - "5431:5432"
     volumes:
     # Run docker rm -f -v biomage-inframock-postgres to re run these files
       - ./src/postgres_init:/docker-entrypoint-initdb.d/
+      - ./pg_data:/var/lib/postgresql/data
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
-  
+
   redis:
     container_name: "biomage-inframock-redis"
     image: "redis:alpine"
@@ -61,3 +62,5 @@ services:
       # whether to populate the database with a mocked experiment
       # and upload corresponding experiment file to InfraMock S3
       - POPULATE_MOCK=${POPULATE_MOCK-true}
+volumes:
+  data: {}
