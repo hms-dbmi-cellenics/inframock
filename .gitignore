@@ -145,3 +145,4 @@ cython_debug/
 # Disable uploading for local data cache for using local data
 src/data/
 data/
+pg_data/
