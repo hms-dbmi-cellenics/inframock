@@ -34,7 +34,7 @@ build: ## Builds the docker-compose environment
 run: build ## Builds & runs the docker environment
 	@docker-compose $(docker_files) up --force-recreate
 migrate:
-	@NODE_ENV=development knex migrate:latest --cwd ../api/src/sql/ --migrations-directory ../api/src/sql/migrations
+	@NODE_ENV=development knex migrate:latest --cwd ../api/src/sql/ --migrations-directory ./migrations
 migrate-down:
 	@NODE_ENV=development knex migrate:down --cwd ../api/src/sql/ --migrations-directory ../api/src/sql/migrations
 cleanup-sql:
