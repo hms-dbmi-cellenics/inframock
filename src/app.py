@@ -28,9 +28,9 @@ POPULATE_MOCK = os.getenv("POPULATE_MOCK")
 DATA_LOCATION = "/data"
 ENVIROMENT = "development"
 LOCALSTACK_ENDPOINT = "http://localstack:4566"
-SOURCE_BUCKET_NAME = "biomage-source-development"
-PROCESSED_MATRIX_BUCKET_NAME = "processed-matrix-development"
-CELL_SETS_BUCKET_NAME = "cell-sets-development"
+SOURCE_BUCKET_NAME = "biomage-source-development-242905224710"
+PROCESSED_MATRIX_BUCKET_NAME = "processed-matrix-development-242905224710"
+CELL_SETS_BUCKET_NAME = "cell-sets-development-242905224710"
 MB = 1024 ** 2
 config = TransferConfig(multipart_threshold=20 * MB)
 
@@ -76,7 +76,7 @@ def provision_biomage_stack():
     logger.info(
         "Expect harmless error on localstack.services.sns.sns_listener if the API is not running"
     )
-    resources = ("dynamo", "s3", "sns")
+    resources = ("dynamo", "sns", "s3-v2")
     for resource in resources:
         path = f"https://raw.githubusercontent.com/hms-dbmi-cellenics/iac/master/cf/{resource}.yaml"
 
