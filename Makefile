@@ -32,11 +32,12 @@ build: ## Builds the docker-compose environment
 	@docker-compose $(docker_files) build
 	@echo "    [✓]\n"
 run: build ## Builds & runs the docker environment
+	@make cleanup-sql
 	@docker-compose $(docker_files) up --force-recreate
 migrate:
 	@NODE_ENV=development knex migrate:latest --cwd ../api/src/sql/ --migrations-directory ./migrations
 migrate-down:
-	@NODE_ENV=development knex migrate:down --cwd ../api/src/sql/ --migrations-directory ./migrations
+	@NODE_ENV=development knex migrate:rollback --all --cwd ../api/src/sql/ --migrations-directory ./migrations
 cleanup-sql:
 	rm -rf pg_data
 reload-data: migrate ## Reloads the input data found in ./data. NOTE: it will not remove from s3 & dynamo generated data like processed matrices, or plots. If you need a clean start, stop & re-run inframock.
