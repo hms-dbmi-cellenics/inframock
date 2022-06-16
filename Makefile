@@ -32,9 +32,7 @@ build: ## Builds the docker-compose environment
 	@docker-compose $(docker_files) build
 	@echo "    [✓]\n"
 run: build ## Builds & runs the docker environment
-	@make cleanup-sql
 	@docker-compose $(docker_files) up --force-recreate
-	@make migrate
 migrate:
 	@NODE_ENV=development knex migrate:latest --cwd ../api/src/sql/ --migrations-directory ./migrations
 migrate-down:
