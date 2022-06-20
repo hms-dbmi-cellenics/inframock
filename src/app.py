@@ -23,14 +23,15 @@ logger.addHandler(out_hdlr)
 logger.setLevel(logging.DEBUG)
 
 POPULATE_MOCK = os.getenv("POPULATE_MOCK")
+AWS_ACCOUNT_ID = "000000000000"
 
 # data is always mounted into /data regardless of the origin location
 DATA_LOCATION = "/data"
 ENVIROMENT = "development"
 LOCALSTACK_ENDPOINT = "http://localstack:4566"
-SOURCE_BUCKET_NAME = "biomage-source-development-242905224710"
-PROCESSED_MATRIX_BUCKET_NAME = "processed-matrix-development-242905224710"
-CELL_SETS_BUCKET_NAME = "cell-sets-development-242905224710"
+SOURCE_BUCKET_NAME = "biomage-source-development-{AWS_ACCOUNT_ID}"
+PROCESSED_MATRIX_BUCKET_NAME = "processed-matrix-development-{AWS_ACCOUNT_ID}"
+CELL_SETS_BUCKET_NAME = "cell-sets-development-{AWS_ACCOUNT_ID}"
 MB = 1024 ** 2
 config = TransferConfig(multipart_threshold=20 * MB)
 
