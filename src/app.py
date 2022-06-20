@@ -23,14 +23,15 @@ logger.addHandler(out_hdlr)
 logger.setLevel(logging.DEBUG)
 
 POPULATE_MOCK = os.getenv("POPULATE_MOCK")
+AWS_ACCOUNT_ID = "000000000000"
 
 # data is always mounted into /data regardless of the origin location
 DATA_LOCATION = "/data"
 ENVIROMENT = "development"
 LOCALSTACK_ENDPOINT = "http://localstack:4566"
-SOURCE_BUCKET_NAME = "biomage-source-development"
-PROCESSED_MATRIX_BUCKET_NAME = "processed-matrix-development"
-CELL_SETS_BUCKET_NAME = "cell-sets-development"
+SOURCE_BUCKET_NAME = "biomage-source-development-{AWS_ACCOUNT_ID}"
+PROCESSED_MATRIX_BUCKET_NAME = "processed-matrix-development-{AWS_ACCOUNT_ID}"
+CELL_SETS_BUCKET_NAME = "cell-sets-development-{AWS_ACCOUNT_ID}"
 MB = 1024 ** 2
 config = TransferConfig(multipart_threshold=20 * MB)
 
@@ -76,7 +77,7 @@ def provision_biomage_stack():
     logger.info(
         "Expect harmless error on localstack.services.sns.sns_listener if the API is not running"
     )
-    resources = ("dynamo", "s3", "sns")
+    resources = ("dynamo", "sns", "s3-v2")
     for resource in resources:
         path = f"https://raw.githubusercontent.com/hms-dbmi-cellenics/iac/master/cf/{resource}.yaml"
 
