@@ -29,9 +29,9 @@ AWS_ACCOUNT_ID = "000000000000"
 DATA_LOCATION = "/data"
 ENVIROMENT = "development"
 LOCALSTACK_ENDPOINT = "http://localstack:4566"
-SOURCE_BUCKET_NAME = "biomage-source-development-{AWS_ACCOUNT_ID}"
-PROCESSED_MATRIX_BUCKET_NAME = "processed-matrix-development-{AWS_ACCOUNT_ID}"
-CELL_SETS_BUCKET_NAME = "cell-sets-development-{AWS_ACCOUNT_ID}"
+SOURCE_BUCKET_NAME = f"biomage-source-development-{AWS_ACCOUNT_ID}"
+PROCESSED_MATRIX_BUCKET_NAME = f"processed-matrix-development-{AWS_ACCOUNT_ID}"
+CELL_SETS_BUCKET_NAME = f"cell-sets-development-{AWS_ACCOUNT_ID}"
 MB = 1024 ** 2
 config = TransferConfig(multipart_threshold=20 * MB)
 
