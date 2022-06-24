@@ -37,6 +37,7 @@ migrate:
 	@NODE_ENV=development knex migrate:latest --cwd ../api/src/sql/ --migrations-directory ./migrations
 migrate-down:
 	@NODE_ENV=development knex migrate:rollback --all --cwd ../api/src/sql/ --migrations-directory ./migrations
+remigrate: migrate-down migrate
 cleanup-sql:
 	rm -rf pg_data
 reload-data: migrate ## Reloads the input data found in ./data. NOTE: it will not remove from s3 & dynamo generated data like processed matrices, or plots. If you need a clean start, stop & re-run inframock.
