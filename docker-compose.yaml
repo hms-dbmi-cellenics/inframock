@@ -11,7 +11,6 @@ services:
       - ./pg_data:/var/lib/postgresql/data
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
-    user: postgres
 
   redis:
     container_name: "biomage-inframock-redis"
