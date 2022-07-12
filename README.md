@@ -94,14 +94,14 @@ A: The easiest way is to use the `aws-cli` along with InfraMock on a separate te
 You can add `--endpoint-url` as the *second* argument to
 `aws`, which will automatically redirect all further requests to InfraMock. For example:
 
-    $ aws --endpoint-url=http://localhost:4566 s3 ls s3://biomage-source-development/5e959f9c9f4b120771249001/
+    $ aws --endpoint-url=http://localhost:4566 s3 ls s3://biomage-source-development-000000000000/5e959f9c9f4b120771249001/
 
 will give you the following output:
 
     2021-01-06 18:05:43  149752480 python.h5ad
     2021-01-06 18:06:05   65803978 r.rds
 
-where `biomage-source-development` is the name of the s3 bucket that is created by inframock when starting the
+where `biomage-source-development-000000000000` is the name of the s3 bucket that is created by inframock when starting the
 local development infrastructure and `5e959f9c9f4b120771249001` is the experiment id that you are using locally.
 
 You can also use tools like [medis](https://github.com/luin/medis) for interactively debugging the local
