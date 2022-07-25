@@ -1,4 +1,5 @@
 import gzip
+import json
 import logging
 import os
 import re
@@ -10,8 +11,6 @@ from pathlib import Path
 import backoff
 import boto3
 import requests
-import json
-
 from boto3.s3.transfer import TransferConfig
 from botocore.exceptions import ClientError
 
@@ -35,30 +34,11 @@ CELL_SETS_BUCKET_NAME = f"cell-sets-development-{AWS_ACCOUNT_ID}"
 MB = 1024 ** 2
 config = TransferConfig(multipart_threshold=20 * MB)
 
-dynamodb_mocks = ["mock_experiment.json", "mock_samples.json", "mock_projects.json", "mock_plots_tables.json"]
-
 
 @backoff.on_exception(backoff.expo, requests.exceptions.RequestException, max_time=60)
 def wait_for_localstack():
     logger.info("Waiting for localstack to spin up...")
     requests.get(LOCALSTACK_ENDPOINT)
-
-
-def get_file_dynamodb_table(filename):
-    if re.match("mock_experiment.*.json", filename):
-        return "experiments"
-
-    if re.match("mock_samples.*.json", filename):
-        return "samples"
-
-    if re.match("mock_projects.*.json", filename):
-        return "projects"
-
-    if re.match("mock_plots_tables.*.json", filename):
-        return "plots-tables"
-
-    # this should not be reachable as the names a prefiltered in handle_file()
-    raise ValueError(f"invalid file provided {filename}")
 
 
 def get_experiments():
@@ -77,7 +57,7 @@ def provision_biomage_stack():
     logger.info(
         "Expect harmless error on localstack.services.sns.sns_listener if the API is not running"
     )
-    resources = ("dynamo", "sns", "s3-v2")
+    resources = ("sns", "s3-v2")
     for resource in resources:
         path = f"https://raw.githubusercontent.com/hms-dbmi-cellenics/iac/master/cf/{resource}.yaml"
 
@@ -116,17 +96,12 @@ def provision_biomage_stack():
 
 def handle_file(experiment_id, f):
     # handle file will:
-    # * update DynamoDB for files matching mock_*.json
     # * update S3 for data files named r.rds.gz
     # * ignore the file otherwise
     filename = Path(f).name
     logger.info(f" - {filename}")
 
-    if re.match("|".join([f"^{mock}$" for mock in dynamodb_mocks]), filename):
-        update_dynamoDB(f)
-        logger.info(f"\t{filename} loaded into local DynamoDB.")
-
-    elif re.match("^biomage-source.r.rds.gz$", filename):
+    if re.match("^biomage-source.r.rds.gz$", filename):
         update_S3_count_matrix(experiment_id, f, SOURCE_BUCKET_NAME)
         logger.info(f"\t{filename} data successfully uploaded to S3.")
 
@@ -141,22 +116,6 @@ def handle_file(experiment_id, f):
     else:
         logger.warning(f"\tUnknown input file {filename}, continuing")
 
-
-def update_dynamoDB(json_file):
-    filename = Path(json_file).name
-    with open(json_file) as f:
-        table_name = get_file_dynamodb_table(filename)
-
-        data = json.load(f)
-
-        client = boto3.client("dynamodb", endpoint_url=LOCALSTACK_ENDPOINT)
-        table_name = "{}-{}".format(table_name, ENVIROMENT)
-
-        if "records" in data:
-            for data_item in data["records"]:
-                client.put_item(TableName=table_name, Item=data_item)
-        else:
-            client.put_item(TableName=table_name, Item=data)
 
 def update_S3_count_matrix(experiment_id, f, bucket_name):
     with open(f, mode="rb") as r:
@@ -187,13 +146,15 @@ def populate_localstack():
     for experiment_id in get_experiments():
         logger.info(f"Loading data for {experiment_id}:")
 
-        # for each file in the experiment current folder either upload it to localstack
-        # S3 or to dynamoDB
+        # for each S3 file in the experiment current folder either upload it to localstack
         for f in glob(f"{DATA_LOCATION}/{experiment_id}/*"):
             handle_file(experiment_id, f)
 
+
 def main():
-    logger.info("InfraMock local service started. Waiting for LocalStack to be brought up...")
+    logger.info(
+        "InfraMock local service started. Waiting for LocalStack to be brought up..."
+    )
 
     wait_for_localstack()
 
@@ -201,7 +162,7 @@ def main():
     provision_biomage_stack()
 
     if POPULATE_MOCK == "true":
-        logger.info("Going to populate mock S3/DynamoDB with experiment data.")
+        logger.info("Going to populate mock S3 with experiment data.")
         populate_localstack()
 
     region = os.getenv("AWS_DEFAULT_REGION")
