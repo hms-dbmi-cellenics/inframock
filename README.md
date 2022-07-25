@@ -16,7 +16,7 @@ If you want to reload the data you can run the following without having to stop 
 
     make reload-data
 
-This will only reload input data found in `BIOMAGE_DATA_PATH`. It will not erase generated files present in S3 & DynamoDB like processed matrices, or plots. If you need a clean environment re-run inframock.
+This will only reload input data found in `BIOMAGE_DATA_PATH`. It will not erase generated files present in S3 like processed matrices, or plots. If you need a clean environment re-run inframock.
 
 Run `make help` for more information about available commands like python linting and autoformatting.
 
@@ -32,7 +32,7 @@ The following services are running within InfraMock:
 * A PostgreSQL instance accessible from host post `5431`.
 
 The endpoint on port `4566` is a drop-in replacement for the default AWS endpoint for a given
-region. It has a working version of SQS, SNS, S3 and DynamoDB running. Services are configured
+region. It has a working version of SQS, SNS, S3 running. Services are configured
 to use the InfraMock-managed endpoint by default when run locally.
 
 ## Environment variables
@@ -40,7 +40,7 @@ to use the InfraMock-managed endpoint by default when run locally.
 
 The following environment variables are exposed for InfraMock:
 
-`BIOMAGE_DATA_PATH`: where to get the experiment data to populate inframock's S3 and DynamoDB. It is recommended
+`BIOMAGE_DATA_PATH`: where to get the experiment data to populate inframock's S3. It is recommended
 to place it outside any other repositories to avoid interactions with git. For example, `export BIOMAGE_DATA_PATH=$HOME/biomage-data` (or next to where your biomage repos live). If this is not set, it will default to `./data`. **Note**: this should be permanently added to your environment (e.g. in `.zshrc`, `.localrc` or similar) because other services like `biomage-utils` or `worker` rely on using the same path.
 
 `POPULATE_MOCK`: whether localstack should be filled with the data sets found in `BIOMAGE_DATA_PATH`.
@@ -64,10 +64,6 @@ Inframock loads automatically the experiments found in the `BIOMAGE_DATA_PATH` f
 
 
 The naming convention for those files is:
- * Files for DynamoDB must match:
-     * `mock_plots_tables*.json`
-     * `mock_samples*.json`
-     * `mock_experiment*.json`
  * Files for S3 must be named `r.rds.gz`
  * Files named in any other way will be ignored
 
@@ -103,10 +99,6 @@ will give you the following output:
 
 where `biomage-source-development-000000000000` is the name of the s3 bucket that is created by inframock when starting the
 local development infrastructure and `5e959f9c9f4b120771249001` is the experiment id that you are using locally.
-
-You can also use tools like [medis](https://github.com/luin/medis) for interactively debugging the local
-Redis cache, and [NoSQL Workbench](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/workbench.html)
-to inspect and modify the current state of the local DynamoDB instance (`Operation Builder -> Add Connection`).
 
 Troubleshooting
 ---------------

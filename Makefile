@@ -39,7 +39,7 @@ migrate-down:
 	@NODE_ENV=development AWS_ACCOUNT_ID=000000000000 AWS_REGION=eu-west-1 knex migrate:rollback --all --cwd ../api/src/sql/ --migrations-directory ./migrations
 cleanup-sql:
 	rm -rf pg_data
-reload-data: migrate ## Reloads the input data found in ./data. NOTE: it will not remove from s3 & dynamo generated data like processed matrices, or plots. If you need a clean start, stop & re-run inframock.
+reload-data: migrate ## Reloads the input data found in ./data. NOTE: it will not remove from s3 generated data like processed matrices, or plots. If you need a clean start, stop & re-run inframock.
 	@docker-compose $(docker_files)  up -d --no-deps --build service
 .PHONY: bootstrap fmt check build run clean help
 clean: ## Cleans up temporary files
