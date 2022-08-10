@@ -59,7 +59,7 @@ def provision_biomage_stack():
     )
     resources = ("sns", "s3-v2")
     for resource in resources:
-        path = f"https://raw.githubusercontent.com/hms-dbmi-cellenics/iac/master/cf/{resource}.yaml"
+        path = f"https://raw.githubusercontent.com/biomage-org/iac/master/cf/{resource}.yaml"
 
         response = requests.get(path)
         template = response.text
