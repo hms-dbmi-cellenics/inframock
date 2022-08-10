@@ -52,7 +52,7 @@ it defaults to `eu-west-1`.
 ## Adding custom data
 
 
-Inframock loads automatically the experiments found in the `BIOMAGE_DATA_PATH` folder. The default experiment included is the same found in the worker repo [here](https://github.com/hms-dbmi-cellenics/worker/blob/master/data/test/r.rds.gz). The expected format for loading data is the following:
+Inframock loads automatically the experiments found in the `BIOMAGE_DATA_PATH` folder. The default experiment included is the same found in the worker repo [here](https://github.com/biomage-org/worker/blob/master/data/test/r.rds.gz). The expected format for loading data is the following:
 
 
     /data
