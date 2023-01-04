@@ -78,9 +78,21 @@ some changes you can just run `make reload-data` without having to stop inframoc
 
 ## Migrating SQL data
 
-Knex is the package used to apply SQL migrations. The package configuration is done in the API. If you want to apply the latest migrations in your local `api` repo to the your local SQL instance you can run either do:
-1. `make migrate`: this will use the API configuration but you need to have knex command available. You can install it `npm install knex`.
-2. Go to `api/src/sql` and run `knex migrate:latest`.
+Knex is the Node.js package used to apply SQL migrations. The `knex` command configuration is done in the `api` repo. There are `make` commands available in `inframock` which references these `knex` commands. However, it assumes that the `api` folder is in the same level (i.e. contained in the same folder) as the `inframock` folder, so make sure that this is the case for your installation before continuing.
+
+Before running the database migrations, make sure that knex is installed in the global context. To install knex, you can run `npm install knex -g`.
+
+To apply the latest migrations in your local SQL instance:
+
+1. `cd` to the root of `inframock`
+2. Run `make migrate`.
+
+If you would like to recreate (delete all data) your database:
+
+1. `cd` to the root of `inframock`
+2. Run `make cleanup-sql`
+3. Restart `inframock`
+3. Run `make migrate`
 
 ## FAQ
 
