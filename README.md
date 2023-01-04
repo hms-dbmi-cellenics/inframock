@@ -85,11 +85,11 @@ Before running the database migrations, make sure that knex is installed in the 
 To apply the latest migrations in your local SQL instance:
 
 1. `cd` into `inframock`
-2. Run `make migrate`.
+2. Run `make migrate`
 
 If you would like to rollback (delete all data) and recreate your tables:
 
-1. `cd` into`
+1. `cd` into `inframock`
 2. Run `make migrate-down`
 3. Run `make migrate`
 
