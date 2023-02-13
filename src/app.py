@@ -57,7 +57,7 @@ def provision_biomage_stack():
     logger.info(
         "Expect harmless error on localstack.services.sns.sns_listener if the API is not running"
     )
-    resources = ("sns", "s3-v2", "sns-endpoint-lambda")
+    resources = ("sns", "s3-v2")
     for resource in resources:
         path = f"https://raw.githubusercontent.com/biomage-org/iac/master/cf/{resource}.yaml"
 
