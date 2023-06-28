@@ -7,6 +7,7 @@
 # Variables
 #--------------------------------------------------
 PYTHON_FILES?=$$(find python -name '*.py')
+AWS_DEFAULT_REGION?=eu-west-1
 # If unix name is Darwin, we are in MacOS => use regular docker-compose.yaml
 # Otherwise assume Linux and add docker-compose.linux-dev.yaml overrides
 ifeq ($(shell uname -s), Darwin)
@@ -34,9 +35,9 @@ build: ## Builds the docker-compose environment
 run: build ## Builds & runs the docker environment
 	@docker-compose $(docker_files) up --force-recreate
 migrate:
-	@NODE_ENV=development AWS_ACCOUNT_ID=000000000000 AWS_REGION=eu-west-1 knex migrate:latest --cwd ../api/src/sql/ --migrations-directory ./migrations
+	@NODE_ENV=development SANDBOX_ID=default AWS_ACCOUNT_ID=000000000000 AWS_REGION=${AWS_DEFAULT_REGION} knex migrate:latest --cwd ../iac/migrations/sql-migrations/
 migrate-down:
-	@NODE_ENV=development AWS_ACCOUNT_ID=000000000000 AWS_REGION=eu-west-1 knex migrate:rollback --all --cwd ../api/src/sql/ --migrations-directory ./migrations
+	@NODE_ENV=development SANDBOX_ID=default AWS_ACCOUNT_ID=000000000000 AWS_REGION=${AWS_DEFAULT_REGION} knex migrate:rollback --all --cwd ../iac/migrations/sql-migrations/
 cleanup-sql:
 	rm -rf pg_data
 reload-data: migrate ## Reloads the input data found in ./data. NOTE: it will not remove from s3 generated data like processed matrices, or plots. If you need a clean start, stop & re-run inframock.

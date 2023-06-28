@@ -1,12 +1,12 @@
 # inframock
 
-InfraMock is a local copy of the Biomage AWS stack for development purposes. It uses
+InfraMock is a local copy of the Cellenics AWS stack for development purposes. It uses
 [localstack](https://github.com/localstack/localstack) to create a mocked version of our AWS stack.
 It can also, optionally, populate this stack with real data if local development is desired.
 
 ## How to use it
 
-The following command will build and execute the inframock environment loading all the experiment data found in `BIOMAGE_DATA_PATH` folder:
+The following command will build and execute the inframock environment loading all the experiment data found in `CELLENICS_DATA_PATH` folder:
 
     make build && make run
 
@@ -16,7 +16,7 @@ If you want to reload the data you can run the following without having to stop 
 
     make reload-data
 
-This will only reload input data found in `BIOMAGE_DATA_PATH`. It will not erase generated files present in S3 like processed matrices, or plots. If you need a clean environment re-run inframock.
+This will only reload input data found in `CELLENICS_DATA_PATH`. It will not erase generated files present in S3 like processed matrices, or plots. If you need a clean environment re-run inframock.
 
 Run `make help` for more information about available commands like python linting and autoformatting.
 
@@ -40,10 +40,10 @@ to use the InfraMock-managed endpoint by default when run locally.
 
 The following environment variables are exposed for InfraMock:
 
-`BIOMAGE_DATA_PATH`: where to get the experiment data to populate inframock's S3. It is recommended
-to place it outside any other repositories to avoid interactions with git. For example, `export BIOMAGE_DATA_PATH=$HOME/biomage-data` (or next to where your biomage repos live). If this is not set, it will default to `./data`. **Note**: this should be permanently added to your environment (e.g. in `.zshrc`, `.localrc` or similar) because other services like `biomage-utils` or `worker` rely on using the same path.
+`CELLENICS_DATA_PATH`: where to get the experiment data to populate inframock's S3. It is recommended
+to place it outside any other repositories to avoid interactions with git. For example, `export CELLENICS_DATA_PATH=$HOME/cellenics-data` (or next to where your cellenics repos live). If this is not set, it will default to `./data`. **Note**: this should be permanently added to your environment (e.g. in `.zshrc`, `.localrc` or similar) because other services like `cellenics-utils` or `worker` rely on using the same path.
 
-`POPULATE_MOCK`: whether localstack should be filled with the data sets found in `BIOMAGE_DATA_PATH`.
+`POPULATE_MOCK`: whether localstack should be filled with the data sets found in `CELLENICS_DATA_PATH`.
 For this to work, `CLUSTER_ENV` must be set to `development`, which is the default behavior.
 
 `AWS_DEFAULT_REGION`: the default mocked region for your infrastructure to be deployed under. If it's not set,
@@ -52,7 +52,7 @@ it defaults to `eu-west-1`.
 ## Adding custom data
 
 
-Inframock loads automatically the experiments found in the `BIOMAGE_DATA_PATH` folder. The default experiment included is the same found in the worker repo [here](https://github.com/hms-dbmi-cellenics/worker/blob/master/data/test/r.rds.gz). The expected format for loading data is the following:
+Inframock loads automatically the experiments found in the `CELLENICS_DATA_PATH` folder. The default experiment included is the same found in the worker repo [here](https://github.com/hms-dbmi-cellenics/worker/blob/master/data/test/r.rds.gz). The expected format for loading data is the following:
 
 
     /data
@@ -73,14 +73,30 @@ some changes you can just run `make reload-data` without having to stop inframoc
 **Notes**
 
 * Manually adding data is not advised as it can lead to inconsistent states easily
-* The recommendation is to use `biomage-utils` to download & synchronize experiments from staging or production (to be implemented soon)
+* The recommendation is to use `cellenics-utils` to download & synchronize experiments from staging or production (to be implemented soon)
 * If you do add manually data, make sure the mock files and the r.rds.gz come from the same environment to avoid inconsistencies (i.e. copy both the rds & mock files from the same experiment in staging or production).
 
 ## Migrating SQL data
 
-Knex is the package used to apply SQL migrations. The package configuration is done in the API. If you want to apply the latest migrations in your local `api` repo to the your local SQL instance you can run either do:
-1. `make migrate`: this will use the API configuration but you need to have knex command available. You can install it `npm install knex`.
-2. Go to `api/src/sql` and run `knex migrate:latest`.
+Knex is the Node.js package used to apply SQL migrations. The `knex` command uses the migration files located in the local `api` folder. There are `make` commands available in `inframock` which references these references via the `knex` configuration located in the `iac` folder. These commands assume that the `iac` and `api` folders are located in the same folder as the `inframock` folder. Therefore, make sure that this is the case for your installation before continuing.
+
+Before running the database migrations, make sure that :
+1. Knex is installed in the global context. To install knex, you can run `npm install knex -g`.
+2. `iac` and `api` folders are located in the same folder as the `inframock` folder
+3. `inframock` is runnning
+
+To apply the latest migrations in your local SQL instance:
+
+1. Open a new terminal
+1. `cd` into `inframock`
+2. Run `make migrate`
+
+If you would like to rollback (delete all data) and recreate your tables:
+
+1. Open a new terminal
+2. `cd` into `inframock`
+3. Run `make migrate-down`
+4. Run `make migrate`
 
 ## FAQ
 
