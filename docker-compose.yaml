@@ -50,7 +50,7 @@ services:
     links:
       - "localstack:localstack"
     volumes:
-      - "${BIOMAGE_DATA_PATH-./data}:/data"
+      - "${CELLENICS_DATA_PATH-./data}:/data"
     environment:
       - PYTHONUNBUFFERED=1
       # pre-defined (mocked) AWS credentials
