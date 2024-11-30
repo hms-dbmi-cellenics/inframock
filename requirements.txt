@@ -1,4 +1,4 @@
 boto3==1.17.97
-requests==2.25.1
+requests==2.31.0
 backoff==1.10.0
 cfn-flip==1.2.3
